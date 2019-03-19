@@ -10,7 +10,7 @@ matrix:
         - php: 7.1
         - php: 7.2
         - php: 7.3
-          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-clover=coverage.clover"
         # Symfony LTS
         - php: 7.3
           env: DEPENDENCIES="symfony/lts:^3"
