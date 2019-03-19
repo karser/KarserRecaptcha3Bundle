@@ -10,6 +10,7 @@ matrix:
         - php: 7.1
         - php: 7.2
         - php: 7.3
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
         # Symfony LTS
         - php: 7.3
           env: DEPENDENCIES="symfony/lts:^3"
@@ -23,6 +24,7 @@ allow_failures:
     - env: STABILITY="dev"
 
 before_install:
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; echo ${DEPENDENCIES}; fi;
 
@@ -30,3 +32,6 @@ install: composer update --prefer-dist
 
 script:
     - vendor/bin/phpunit
+
+after_script:
+    - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover
