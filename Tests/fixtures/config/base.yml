@@ -1,0 +1,15 @@
+framework:
+    secret:          ThisIsNotReallyASecretSoPleaseChangeIt
+    validation:      { enabled: true }
+    templating:      { engines: ['twig'] }
+    test: true
+    session:
+        storage_id: session.storage.mock_file
+
+twig:
+    strict_variables: true
+
+services:
+    karser_recaptcha3.google.recaptcha:
+        class: Karser\Recaptcha3Bundle\Tests\fixtures\RecaptchaMock
+        public: true

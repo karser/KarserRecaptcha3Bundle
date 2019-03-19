@@ -1,0 +1,7 @@
+imports:
+    - { resource: 'base.yml' }
+
+karser_recaptcha3:
+    site_key: 'key'
+    secret_key: 'secret'
+    enabled: true
