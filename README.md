@@ -1,6 +1,8 @@
 KarserRecaptcha3Bundle
 ======================
 
+[![Build Status](https://travis-ci.org/karser/KarserRecaptcha3Bundle.svg?branch=master)](https://travis-ci.org/karser/KarserRecaptcha3Bundle)
+
 reCAPTCHA v3 returns a score for each request without user friction. 
 The score is based on interactions with your site and enables you to
 take an appropriate action for your site. Register reCAPTCHA v3 keys
