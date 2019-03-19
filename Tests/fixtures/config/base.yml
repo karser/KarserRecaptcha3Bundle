@@ -5,6 +5,7 @@ framework:
     test: true
     session:
         storage_id: session.storage.mock_file
+    form: ~
 
 twig:
     strict_variables: true
