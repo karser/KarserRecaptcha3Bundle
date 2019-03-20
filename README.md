@@ -55,6 +55,9 @@ karser_recaptcha3:
 Usage
 -----
 ```
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
+
 class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
