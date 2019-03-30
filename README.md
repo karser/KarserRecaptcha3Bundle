@@ -22,17 +22,31 @@ With [composer](https://getcomposer.org), require:
 
 `composer require karser/karser-recaptcha3-bundle`
 
-Then enable it in your kernel:
 
-```php
-// app/AppKernel.php
+Register the bundle: 
+--------------------
+
+**Symfony 3 Version:**  
+Register bundle into `app/AppKernel.php`:
+
+``` php
 public function registerBundles()
 {
-    $bundles = array(
-        //...
+    return array(
+        // ...
         new Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle(),
-        //...
+    );
+}
 ```
+**Symfony 4 Version :**   
+Register bundle into `config/bundles.php`:
+```php 
+return [
+    //...
+    Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle::class => ['all' => true],
+];
+```
+
 
 Configuration
 -------------
