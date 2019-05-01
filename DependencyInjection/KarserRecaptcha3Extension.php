@@ -22,7 +22,7 @@ class KarserRecaptcha3Extension extends ConfigurableExtension
     private function injectTemplate(ContainerBuilder $container)
     {
         $resources = $container->getParameter('twig.form.resources');
-        $resources[] = 'KarserRecaptcha3Bundle:Form:karser_recaptcha3_widget.html.twig';
+        $resources[] = '@KarserRecaptcha3/Form/karser_recaptcha3_widget.html.twig';
         $container->setParameter('twig.form.resources', $resources);
     }
 }
