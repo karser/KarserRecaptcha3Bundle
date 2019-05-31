@@ -62,7 +62,12 @@ karser_recaptcha3:
 
 Usage
 -----
-```
+
+### How to integrate re-captcha in Symfony form:
+
+```php
+<?php
+
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 
@@ -78,6 +83,70 @@ class TaskType extends AbstractType
 }
 ```
 
+### How to integrate re-captcha in API method:
+
+The idea is to require the frontend to submit the captcha token, so it will be validated on server side.
+
+First you need to add the captcha field to your transport entity:
+```php
+<?php
+
+namespace App\Dto\UseCases;
+
+final class UserSignupRequest
+{
+    /** @var string|null */
+    public $email;
+
+    /** @var string|null */
+    public $captcha;
+}
+```
+
+And to add the validation constraint:
+
+```yaml
+#config/validator/validation.yaml
+App\Dto\UserSignupRequest:
+    properties:
+        email:
+            - NotBlank: ~
+            - Email: { mode: strict }
+        captcha:
+            - Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3: ~
+```
+
+
+On frontend part you need to submit the captcha token along with email.
+You can obtain the captcha token either *on page load* or *on form submit*.
+
+```html
+<script src="https://www.google.com/recaptcha/api.js?render=<siteKey>"></script>
+
+<script>
+const siteKey = '*****************-**-******-******';
+
+//either on page load
+grecaptcha.ready(function() {
+    grecaptcha.execute(siteKey, {
+        action: 'signup|resend_email|forgot_password'
+    }).then(function(token) {
+        //the token will be sent on form submit
+        $('[name="captcha"]').val(token);
+    });
+});
+
+//or on form post:
+grecaptcha.ready(function() {
+    grecaptcha.execute(siteKey, {
+        action: 'signup|resend_email|forgot_password'
+    }).then(function(token) {
+        //submit the form
+        return http.post(url, {email, captcha: token});
+    });
+});
+</script>
+```
 
 Testing
 -------
