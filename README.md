@@ -12,7 +12,7 @@ The score is based on interactions with your site (1.0 is very likely a good int
 take an appropriate action for your site. Register reCAPTCHA v3 keys
 [here](https://g.co/recaptcha/v3).
 
-![image](https://user-images.githubusercontent.com/1675033/55276683-1ab94b80-52ff-11e9-9078-4fa822de894e.png)
+![image](https://user-images.githubusercontent.com/1675033/58698825-bbca8e00-83a4-11e9-9627-e3a2b1a6c074.png)
 
 
 Installation
