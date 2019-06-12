@@ -148,6 +148,21 @@ grecaptcha.ready(function() {
 </script>
 ```
 
+### How to deal with functional and e2e testing:
+
+Recaptcha won't allow you to test your app efficiently unless you disable it for the environment you are testing against.
+
+```yaml
+# app/config/config.yml (or config/packages/karser_recaptcha3.yaml if using Symfony4)
+karser_recaptcha3:
+    enabled: '%env(RECAPTCHA3_ENABLED)%'
+```
+
+```bash
+#.env.test or a stage server environment
+RECAPTCHA3_ENABLED=0
+```
+
 Testing
 -------
 
