@@ -31,6 +31,12 @@ final class Recaptcha3Validator extends ConstraintValidator
         if (!$constraint instanceof Recaptcha3) {
             throw new UnexpectedTypeException($constraint, Recaptcha3::class);
         }
+        if (null === $value || '' === $value) {
+            return;
+        }
+        if (!is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
+            throw new UnexpectedTypeException($value, 'string');
+        }
 
         if (!$this->enabled) {
             return;
@@ -40,7 +46,10 @@ final class Recaptcha3Validator extends ConstraintValidator
 
         $response = $this->recaptcha->verify($value, $ip);
         if (!$response->isSuccess()) {
-            $this->context->addViolation($constraint->message);
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $this->formatValue($value))
+                ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
+                ->addViolation();
         }
     }
 }
