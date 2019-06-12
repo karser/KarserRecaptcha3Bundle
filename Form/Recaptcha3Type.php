@@ -43,7 +43,6 @@ class Recaptcha3Type extends AbstractType
     {
         $resolver->setDefaults([
             'mapped' => false,
-            'enabled' => true,
             'site_key' => null,
             'action_name' => 'homepage',
         ]);
