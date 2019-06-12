@@ -7,7 +7,9 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class Recaptcha3 extends Constraint
+final class Recaptcha3 extends Constraint
 {
+    const INVALID_FORMAT_ERROR = '7147ffdb-0af4-4f7a-bd5e-e9dcfa6d7a2d';
+
     public $message = 'Your computer or network may be sending automated queries';
 }

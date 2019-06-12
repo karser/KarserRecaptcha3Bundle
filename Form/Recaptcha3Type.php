@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Recaptcha3Type extends AbstractType
+final class Recaptcha3Type extends AbstractType
 {
     /** @var string */
     private $siteKey;
@@ -43,7 +43,6 @@ class Recaptcha3Type extends AbstractType
     {
         $resolver->setDefaults([
             'mapped' => false,
-            'enabled' => true,
             'site_key' => null,
             'action_name' => 'homepage',
         ]);
