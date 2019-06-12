@@ -163,6 +163,65 @@ karser_recaptcha3:
 RECAPTCHA3_ENABLED=0
 ```
 
+### How to add Cloudflare IP resolver:
+
+From the [Cloudflare docs](https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers-):
+To provide the client (visitor) IP address for every request to the origin, Cloudflare adds the CF-Connecting-IP header.
+```
+"CF-Connecting-IP: A.B.C.D"
+```
+
+So you can implement custom IP resolver which attempts to read the `CF-Connecting-IP` header or fallbacks with the internal IP resolver:
+ 
+```php
+<?php declare(strict_types=1);
+
+namespace App\Service;
+
+use Karser\Recaptcha3Bundle\Services\IpResolverInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+
+class CloudflareIpResolver implements IpResolverInterface
+{
+    /** @var IpResolverInterface */
+    private $decorated;
+
+    /** @var RequestStack */
+    private $requestStack;
+
+    public function __construct(IpResolverInterface $decorated, RequestStack $requestStack)
+    {
+        $this->decorated = $decorated;
+        $this->requestStack = $requestStack;
+    }
+
+    public function resolveIp(): ?string
+    {
+        return $this->doResolveIp() ?? $this->decorated->resolveIp();
+    }
+
+    private function doResolveIp(): ?string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request === null) {
+            return null;
+        }
+        return $request->server->get('HTTP_CF_CONNECTING_IP');
+    }
+}
+```
+
+Here is the service declaration. It decorates the internal resolver:
+```yaml
+#services.yaml
+services:
+    App\Service\CloudflareIpResolver:
+        decorates: 'karser_recaptcha3.ip_resolver'
+        arguments:
+            $decorated: '@App\Service\CloudflareIpResolver.inner'
+            $requestStack: '@request_stack'
+```
+
 Testing
 -------
 

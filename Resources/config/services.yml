@@ -14,9 +14,15 @@ services:
         arguments:
             - '@karser_recaptcha3.google.recaptcha'
             - '%karser_recaptcha3.enabled%'
-            - '@request_stack'
+            - '@karser_recaptcha3.ip_resolver'
         tags:
             - { name: validator.constraint_validator, alias: karser_recaptcha3_validator }
+
+    karser_recaptcha3.ip_resolver:
+        class:  Karser\Recaptcha3Bundle\Services\IpResolver
+        public: false
+        arguments:
+            - '@request_stack'
 
     karser_recaptcha3.google.recaptcha:
         class: 'ReCaptcha\ReCaptcha'

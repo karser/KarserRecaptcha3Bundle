@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class Recaptcha3 extends Constraint
+final class Recaptcha3 extends Constraint
 {
     public $message = 'Your computer or network may be sending automated queries';
 }
