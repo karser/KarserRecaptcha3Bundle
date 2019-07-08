@@ -1,17 +1,18 @@
 {% block karser_recaptcha3_widget %}
-    {% filter spaceless %}
+    {% apply spaceless %}
         {%- set type = type|default('hidden') -%}
         {{ block('form_widget_simple') }}
 
         {% if form.vars.enabled -%}
-            <script src="https://www.google.com/recaptcha/api.js?render={{ form.vars.site_key }}"></script>
             <script>
-                grecaptcha.ready(function() {
+                var recaptchaCallback_{{ id }} = function() {
                     grecaptcha.execute('{{ form.vars.site_key }}', {action: '{{ form.vars.action_name }}'}).then(function(token) {
                         document.getElementById('{{ id }}').value = token;
                     });
-                });
+                };
             </script>
+            <script src="https://www.google.com/recaptcha/api.js?render={{ form.vars.site_key }}&onload=recaptchaCallback_{{ id }}" async defer></script>
+
         {%- endif %}
-    {% endfilter %}
+    {% endapply %}
 {% endblock %}
