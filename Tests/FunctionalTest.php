@@ -38,7 +38,7 @@ class FunctionalTest extends TestCase
 
         //THEN
         self::assertContains('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
-        self::assertContains('<script src="https://www.google.com/recaptcha/api.js?render=key"></script>', $view);
+        self::assertContains('<script src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer></script>', $view);
         self::assertContains("document.getElementById('form_captcha').value = token;", $view);
     }
 
