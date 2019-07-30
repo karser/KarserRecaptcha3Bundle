@@ -77,6 +77,7 @@ class TaskType extends AbstractType
     {
         $builder->add('captcha', Recaptcha3Type::class, [
             'constraints' => new Recaptcha3(),
+            'action_name' => 'signup|resend_email|forgot_password',
         ]);
         //$builder->add(...);
     }
