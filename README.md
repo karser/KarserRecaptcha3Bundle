@@ -156,7 +156,7 @@ Recaptcha won't allow you to test your app efficiently unless you disable it for
 ```yaml
 # app/config/config.yml (or config/packages/karser_recaptcha3.yaml if using Symfony4)
 karser_recaptcha3:
-    enabled: '%env(RECAPTCHA3_ENABLED)%'
+    enabled: '%env(bool:RECAPTCHA3_ENABLED)%'
 ```
 
 ```bash
