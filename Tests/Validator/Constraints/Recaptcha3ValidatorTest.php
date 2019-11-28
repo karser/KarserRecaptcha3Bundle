@@ -7,6 +7,7 @@ use Karser\Recaptcha3Bundle\Tests\fixtures\RecaptchaMock;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
@@ -16,7 +17,7 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
     /** @var RecaptchaMock */
     private $recaptcha;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->resolver = $this->getMockBuilder(IpResolverInterface::class)->getMock();
         parent::setUp();
@@ -49,11 +50,9 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
-     */
     public function testExpectsStringCompatibleType()
     {
+        $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate(new \stdClass(), new Recaptcha3());
     }
 
