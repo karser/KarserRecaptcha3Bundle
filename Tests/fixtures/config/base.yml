@@ -1,7 +1,6 @@
 framework:
     secret:          ThisIsNotReallyASecretSoPleaseChangeIt
     validation:      { enabled: true }
-    templating:      { engines: ['twig'] }
     test: true
     session:
         storage_id: session.storage.mock_file

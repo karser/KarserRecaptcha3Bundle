@@ -16,7 +16,7 @@ class FunctionalTest extends TestCase
     /** @var TestKernel */
     private $kernel;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->kernel = new TestKernel(uniqid(), false);
     }
