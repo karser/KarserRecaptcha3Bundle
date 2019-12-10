@@ -54,10 +54,17 @@ Configuration
 ```yaml
 # app/config/config.yml (or config/packages/karser_recaptcha3.yaml if using Symfony4)
 karser_recaptcha3:
-    site_key: 'key'
-    secret_key: 'secret'
+    site_key: '%env(RECAPTCHA3_KEY)%'
+    secret_key: '%env(RECAPTCHA3_SECRET)%'
     score_threshold: 0.5
-    enabled: true
+```
+
+Add your site key and secret to your .env.local file:
+```
+###> karser/recaptcha3-bundle ###
+RECAPTCHA3_KEY=my_site_key
+RECAPTCHA3_SECRET=my_secret
+###< karser/recaptcha3-bundle ###
 ```
 
 Usage
