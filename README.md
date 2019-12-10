@@ -99,7 +99,7 @@ First you need to add the captcha field to your transport entity:
 ```php
 <?php
 
-namespace App\Dto\UseCases;
+namespace App\Dto;
 
 final class UserSignupRequest
 {
