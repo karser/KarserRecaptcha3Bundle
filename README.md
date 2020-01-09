@@ -22,6 +22,9 @@ With [composer](https://getcomposer.org), require:
 
 `composer require karser/karser-recaptcha3-bundle`
 
+Composer will ask you if you want to execute a flex recipe for `google/recaptcha`, answer no.
+This bundle requires `google/recaptcha` but doesn't need its recipe.
+If you accidently installed the recipe, you can safely remove the created file `config/packages/google_recaptcha.yaml`.
 
 Register the bundle: 
 --------------------
