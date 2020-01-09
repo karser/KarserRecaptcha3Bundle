@@ -29,6 +29,15 @@ If you accidently installed the recipe, you can safely remove the created file `
 Register the bundle: 
 --------------------
 
+**Symfony 4/5 Version :**   
+Register bundle into `config/bundles.php`:
+```php 
+return [
+    //...
+    Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle::class => ['all' => true],
+];
+```
+
 **Symfony 3 Version:**  
 Register bundle into `app/AppKernel.php`:
 
@@ -41,21 +50,12 @@ public function registerBundles()
     );
 }
 ```
-**Symfony 4 Version :**   
-Register bundle into `config/bundles.php`:
-```php 
-return [
-    //...
-    Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle::class => ['all' => true],
-];
-```
-
 
 Configuration
 -------------
 
 ```yaml
-# app/config/config.yml (or config/packages/karser_recaptcha3.yaml if using Symfony4)
+# config/packages/karser_recaptcha3.yaml (or app/config/config.yml if using Symfony3)
 karser_recaptcha3:
     site_key: '%env(RECAPTCHA3_KEY)%'
     secret_key: '%env(RECAPTCHA3_SECRET)%'
