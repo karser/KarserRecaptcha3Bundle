@@ -22,12 +22,13 @@ With [composer](https://getcomposer.org), require:
 
 `composer require karser/karser-recaptcha3-bundle`
 
-Composer will ask you if you want to execute a flex recipe for `google/recaptcha`, answer no.
-This bundle requires `google/recaptcha` but doesn't need its recipe.
-If you accidently installed the recipe, you can safely remove the created file `config/packages/google_recaptcha.yaml`.
+You can quickly configure this bundle by using symfony/flex: answer **no** for `google/recaptcha` and **yes** for `karser/karser-recaptcha3-bundle`.
+![image](https://user-images.githubusercontent.com/1675033/73133604-d5a39a00-4033-11ea-9ef1-0fed12a8763b.png)
 
-Register the bundle: 
+Configuration without symfony/flex: 
 --------------------
+
+### 1. Register the bundle
 
 **Symfony 4/5 Version :**   
 Register bundle into `config/bundles.php`:
@@ -51,8 +52,7 @@ public function registerBundles()
 }
 ```
 
-Configuration
--------------
+### 2. Add configuration files
 
 ```yaml
 # config/packages/karser_recaptcha3.yaml (or app/config/config.yml if using Symfony3)
@@ -62,7 +62,7 @@ karser_recaptcha3:
     score_threshold: 0.5
 ```
 
-Add your site key and secret to your .env.local file:
+Add your site key and secret to your .env file:
 ```
 ###> karser/recaptcha3-bundle ###
 RECAPTCHA3_KEY=my_site_key
