@@ -28,28 +28,32 @@ final class Recaptcha3Validator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
+        if ($value !== null && !is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
+            throw new UnexpectedTypeException($value, 'string');
+        }
         if (!$constraint instanceof Recaptcha3) {
             throw new UnexpectedTypeException($constraint, Recaptcha3::class);
         }
-        if (null === $value || '' === $value) {
-            return;
-        }
-        if (!is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
-            throw new UnexpectedTypeException($value, 'string');
-        }
-
         if (!$this->enabled) {
             return;
         }
-
-        $ip = $this->ipResolver->resolveIp();
-
-        $response = $this->recaptcha->verify($value, $ip);
-        if (!$response->isSuccess()) {
+        $value = null !== $value ? (string) $value : '';
+        if (!$this->validateCaptcha($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
                 ->addViolation();
         }
+    }
+
+    private function validateCaptcha(string $value): bool
+    {
+        if ($value === '') {
+            return false;
+        }
+        $ip = $this->ipResolver->resolveIp();
+        $response = $this->recaptcha->verify($value, $ip);
+
+        return $response->isSuccess();
     }
 }

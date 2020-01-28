@@ -29,18 +29,6 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
         return new Recaptcha3Validator($this->recaptcha, $enabled = true, $this->resolver);
     }
 
-    public function testNullIsValid()
-    {
-        $this->validator->validate(null, new Recaptcha3());
-        $this->assertNoViolation();
-    }
-
-    public function testEmptyStringIsValid()
-    {
-        $this->validator->validate('', new Recaptcha3());
-        $this->assertNoViolation();
-    }
-
     public function testValidIfNotEnabled()
     {
         $validator = new Recaptcha3Validator($this->recaptcha, $enabled = false, $this->resolver);
@@ -63,9 +51,11 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testInvalidCase()
+    /**
+     * @dataProvider invalidTokensProvider
+     */
+    public function testInvalidCase($testToken)
     {
-        $testToken = 'test-token';
         $this->recaptcha->nextSuccess = false;
         $this->validator->validate($testToken, new Recaptcha3(['message' => 'myMessage']));
 
@@ -73,5 +63,14 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
             ->setParameter('{{ value }}', '"'.$testToken.'"')
             ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
             ->assertRaised();
+    }
+
+    public function invalidTokensProvider()
+    {
+        return [
+            ['invalid-token'],
+            [''],
+            [null],
+        ];
     }
 }
