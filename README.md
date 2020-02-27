@@ -87,12 +87,14 @@ class TaskType extends AbstractType
     {
         $builder->add('captcha', Recaptcha3Type::class, [
             'constraints' => new Recaptcha3(),
-            'action_name' => 'signup|resend_email|forgot_password',
+            'action_name' => 'homepage',
         ]);
         //$builder->add(...);
     }
 }
 ```
+Notes:
+The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
 
 ### How to integrate re-captcha in API method:
 
@@ -140,17 +142,18 @@ const siteKey = '*****************-**-******-******';
 //either on page load
 grecaptcha.ready(function() {
     grecaptcha.execute(siteKey, {
-        action: 'signup|resend_email|forgot_password'
+        action: 'homepage'
     }).then(function(token) {
         //the token will be sent on form submit
         $('[name="captcha"]').val(token);
+        //keep in mind that token expires in 120 seconds so it's better to add setTimeout.
     });
 });
 
 //or on form post:
 grecaptcha.ready(function() {
     grecaptcha.execute(siteKey, {
-        action: 'signup|resend_email|forgot_password'
+        action: 'homepage'
     }).then(function(token) {
         //submit the form
         return http.post(url, {email, captcha: token});
@@ -170,11 +173,11 @@ karser_recaptcha3:
 ```
 
 ```bash
-#.env.test or a stage server environment
+#.env.test or an environment variable
 RECAPTCHA3_ENABLED=0
 ```
 
-### How to add Cloudflare IP resolver:
+### How to resolve IP propertly when behind Cloudflare:
 
 From the [Cloudflare docs](https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers-):
 To provide the client (visitor) IP address for every request to the origin, Cloudflare adds the CF-Connecting-IP header.
