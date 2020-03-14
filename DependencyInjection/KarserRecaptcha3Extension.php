@@ -4,10 +4,11 @@ namespace Karser\Recaptcha3Bundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class KarserRecaptcha3Extension extends ConfigurableExtension
+class KarserRecaptcha3Extension extends ConfigurableExtension implements PrependExtensionInterface
 {
     public function loadInternal(array $configs, ContainerBuilder $container)
     {
@@ -16,13 +17,13 @@ class KarserRecaptcha3Extension extends ConfigurableExtension
         foreach ($configs as $key => $value) {
             $container->setParameter('karser_recaptcha3.'.$key, $value);
         }
-        $this->injectTemplate($container);
     }
 
-    private function injectTemplate(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container)
     {
-        $resources = $container->getParameter('twig.form.resources');
-        $resources[] = '@KarserRecaptcha3/Form/karser_recaptcha3_widget.html.twig';
-        $container->setParameter('twig.form.resources', $resources);
+        if ($container->hasExtension('twig')) {
+            // inject template
+            $container->prependExtensionConfig('twig', ['form_themes' => ['@KarserRecaptcha3/Form/karser_recaptcha3_widget.html.twig']]);
+        }
     }
 }
