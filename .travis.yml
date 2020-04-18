@@ -14,10 +14,12 @@ matrix:
           env: SYMFONY_REQUIRE="4.4.*"
         - php: 7.3
           env: SYMFONY_REQUIRE="5.0.*"
-        - php: 7.4snapshot
+        - php: 7.4
           env: SYMFONY_REQUIRE="4.4.*"
-        - php: 7.4snapshot
+        - php: 7.4
           env: SYMFONY_REQUIRE="5.0.*"
+        - php: 7.4
+          env: STABILITY="dev" SYMFONY_REQUIRE="5.1.*@dev"
     fast_finish: true
 
 #allow_failures:
@@ -28,6 +30,7 @@ matrix:
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
+    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
 
 install:
     - composer global require --no-scripts --no-plugins symfony/flex
