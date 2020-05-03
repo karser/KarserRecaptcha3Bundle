@@ -238,6 +238,29 @@ services:
             $requestStack: '@request_stack'
 ```
 
+Troubleshooting checklist
+-------------------------
+
+### Make sure you setup recaptcha key/secret of version 3.
+Also, make sure you added the domain you use in the [recaptcha settings](https://www.google.com/recaptcha/admin).
+Usually dev domain differs from the production one, so better to double check.
+![image](https://user-images.githubusercontent.com/1675033/71197630-bbd7a000-229a-11ea-9421-7205d2e6f52c.png)
+
+### Make sure you are seeing this in the html of your rendered form
+```
+<input type="hidden" id="form_captcha" name="form[captcha]" /><script>
+    var recaptchaCallback_form_captcha = function() {
+    grecaptcha.execute('<YOUR-RECAPTCHA-KEY>', {action: 'landing'}).then(function(token) {
+    document.getElementById('form_captcha').value = token;
+    });
+    };
+    </script><script src="https://www.google.com/recaptcha/api.js?render=<YOUR-RECAPTCHA-KEY>&onload=recaptchaCallback_form_captcha" async defer></script> 
+</form>
+```
+
+### Make sure you don't have javascript errors in the browser console
+
+
 Testing
 -------
 
@@ -245,3 +268,5 @@ Testing
 composer update
 vendor/bin/phpunit
 ```
+
+
