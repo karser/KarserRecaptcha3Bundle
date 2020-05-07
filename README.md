@@ -179,6 +179,33 @@ karser_recaptcha3:
 RECAPTCHA3_ENABLED=0
 ```
 
+### How to set the threshold from PHP dynamically rather from the .yaml config or .env?
+
+You should inject `@karser_recaptcha3.google.recaptcha` in your service and call `setScoreThreshold` method.
+```yaml
+#services.yaml
+App\Services\YourService:
+    arguments: ['@karser_recaptcha3.google.recaptcha']
+```
+
+```php
+#App/Services/YourService.php
+
+use ReCaptcha\ReCaptcha;
+
+class YourService {
+    private $reCaptcha;
+
+    public function __construct(ReCaptcha $reCaptcha) {
+        $this->reCaptcha = $reCaptcha;
+    }
+
+    public function yourMethod() {
+        $this->reCaptcha->setScoreThreshold(0.7);
+    }
+}
+```
+
 ### How to resolve IP propertly when behind Cloudflare:
 
 From the [Cloudflare docs](https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers-):
