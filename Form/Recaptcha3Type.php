@@ -27,6 +27,7 @@ final class Recaptcha3Type extends AbstractType
         $view->vars['site_key'] = $this->siteKey;
         $view->vars['enabled'] = $this->enabled;
         $view->vars['action_name'] = $options['action_name'];
+        $view->vars['script_nonce_csp'] = $options['script_nonce_csp'] ?? '';
     }
 
     public function getParent(): string
@@ -45,6 +46,7 @@ final class Recaptcha3Type extends AbstractType
             'mapped' => false,
             'site_key' => null,
             'action_name' => 'homepage',
+            'script_nonce_csp' => ''
         ]);
     }
 }

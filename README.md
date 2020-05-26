@@ -90,13 +90,15 @@ class TaskType extends AbstractType
         $builder->add('captcha', Recaptcha3Type::class, [
             'constraints' => new Recaptcha3(),
             'action_name' => 'homepage',
+            'script_nonce_csp' => $nonceCSP,
         ]);
         //$builder->add(...);
     }
 }
 ```
 Notes:
-The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
+- The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
+- The `script_nonce_csp` parameter is optional. You must use the same nonce as in your Content-Security Policy header.
 
 ### How to integrate re-captcha in API method:
 

@@ -4,7 +4,7 @@
         {{ block('form_widget_simple') }}
 
         {% if form.vars.enabled -%}
-            <script>
+            <script {% if form.vars.script_nonce_csp is defined %}nonce="{{ form.vars.script_nonce_csp }}"{% endif %}>
                 var recaptchaCallback_{{ id }} = function() {
                     grecaptcha.execute('{{ form.vars.site_key }}', {action: '{{ form.vars.action_name }}'}).then(function(token) {
                         document.getElementById('{{ id }}').value = token;
