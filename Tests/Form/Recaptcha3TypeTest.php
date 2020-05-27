@@ -32,6 +32,7 @@ class Recaptcha3TypeTest extends TypeTestCase
         $view = $form->createView();
         $this->assertSame(self::SITEKEY, $view->vars['site_key']);
         $this->assertSame('homepage', $view->vars['action_name']);
+        $this->assertSame('', $view->vars['script_nonce_csp']);
         $this->assertTrue($view->vars['enabled']);
     }
 }
