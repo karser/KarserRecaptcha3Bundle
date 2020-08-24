@@ -7,9 +7,10 @@ use ReCaptcha\Response;
 class RecaptchaMock
 {
     public $nextSuccess = true;
+    public $nextErrorCodes = [];
 
     public function verify($response, $remoteIp = null)
     {
-        return new Response($this->nextSuccess);
+        return new Response($this->nextSuccess, $this->nextErrorCodes);
     }
 }
