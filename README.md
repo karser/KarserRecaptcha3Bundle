@@ -92,7 +92,6 @@ class TaskType extends AbstractType
             'action_name' => 'homepage',
             'script_nonce_csp' => $nonceCSP,
         ]);
-        //$builder->add(...);
     }
 }
 ```
@@ -164,6 +163,15 @@ grecaptcha.ready(function() {
     });
 });
 </script>
+```
+
+### How to show errors from the captcha's response
+
+Just add the `{{ errorCodes }}` variable to the message template:
+```
+$formBuilder->add('captcha', Recaptcha3Type::class, [
+    'constraints' => new Recaptcha3(['message' => 'There were problems with your captcha. Please try again or contact with support and provide following code(s): {{ errorCodes }}']),
+])
 ```
 
 ### How to deal with functional and e2e testing:

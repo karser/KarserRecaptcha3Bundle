@@ -57,10 +57,12 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
     public function testInvalidCase($testToken)
     {
         $this->recaptcha->nextSuccess = false;
+        $this->recaptcha->nextErrorCodes = ['test1', 'test2'];
         $this->validator->validate($testToken, new Recaptcha3(['message' => 'myMessage']));
 
         $this->buildViolation('myMessage')
             ->setParameter('{{ value }}', '"'.$testToken.'"')
+            ->setParameter('{{ errorCodes }}', '"test1; test2"')
             ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
             ->assertRaised();
     }
@@ -69,6 +71,27 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
     {
         return [
             ['invalid-token'],
+        ];
+    }
+
+    /**
+     * @dataProvider emptyTokensProvider
+     */
+    public function testEmptyCase($testToken)
+    {
+        $this->recaptcha->nextSuccess = false;
+        $this->validator->validate($testToken, new Recaptcha3(['messageMissingValue' => 'messageMissingValue']));
+
+        $this->buildViolation('messageMissingValue')
+            ->setParameter('{{ value }}', '"'.$testToken.'"')
+            ->setParameter('{{ errorCodes }}', '""')
+            ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
+            ->assertRaised();
+    }
+
+    public function emptyTokensProvider()
+    {
+        return [
             [''],
             [null],
         ];

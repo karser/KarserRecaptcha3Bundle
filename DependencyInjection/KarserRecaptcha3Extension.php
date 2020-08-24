@@ -12,8 +12,8 @@ class KarserRecaptcha3Extension extends ConfigurableExtension implements Prepend
 {
     public function loadInternal(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.php');
         foreach ($configs as $key => $value) {
             $container->setParameter('karser_recaptcha3.'.$key, $value);
         }

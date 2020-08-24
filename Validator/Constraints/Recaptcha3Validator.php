@@ -12,11 +12,7 @@ final class Recaptcha3Validator extends ConstraintValidator
 {
     /** @var ReCaptcha */
     private $recaptcha;
-
-    /** @var bool */
     private $enabled;
-
-    /** @var IpResolverInterface */
     private $ipResolver;
 
     public function __construct($recaptcha, bool $enabled, IpResolverInterface $ipResolver)
@@ -38,22 +34,51 @@ final class Recaptcha3Validator extends ConstraintValidator
             return;
         }
         $value = null !== $value ? (string) $value : '';
-        if (!$this->validateCaptcha($value)) {
-            $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ value }}', $this->formatValue($value))
-                ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
-                ->addViolation();
-        }
+        $this->validateCaptcha($value, $constraint);
     }
 
-    private function validateCaptcha(string $value): bool
+    private function validateCaptcha(string $value, Recaptcha3 $constraint): void
     {
         if ($value === '') {
-            return false;
+            $this->buildViolation($constraint->messageMissingValue, $value);
+            return;
         }
         $ip = $this->ipResolver->resolveIp();
         $response = $this->recaptcha->verify($value, $ip);
+        if (!$response->isSuccess()) {
+            $errorCodes = implode('; ', array_map([$this, 'getErrorMessage'], $response->getErrorCodes()));
+            $this->buildViolation($constraint->message, $value, $errorCodes);
+        }
+    }
 
-        return $response->isSuccess();
+    private function getErrorMessage(string $errorCode): string
+    {
+        $messages = [
+            'missing-input-secret' => 'The secret parameter is missing',
+            'invalid-input-secret' => 'The secret parameter is invalid or malformed',
+            'missing-input-response' => 'The response parameter is missing',
+            'invalid-input-response' => 'The response parameter is invalid or malformed',
+            'bad-request' => 'The request is invalid or malformed',
+            'timeout-or-duplicate' => 'The response is no longer valid: either is too old or has been used previously',
+            'challenge-timeout' => 'Challenge timeout',
+            'score-threshold-not-met' => 'Score threshold not met',
+            'bad-response' => 'Did not receive a 200 from the service',
+            'connection-failed' => 'Could not connect to service',
+            'invalid-json' => 'Invalid JSON received',
+            'unknown-error' => 'Not a success, but no error codes received',
+            'hostname-mismatch' => 'Expected hostname did not match',
+            'apk_package_name-mismatch' => 'Expected APK package name did not match',
+            'action-mismatch' => 'Expected action did not match',
+        ];
+        return $messages[$errorCode] ?? $errorCode;
+    }
+
+    private function buildViolation(string $message, string $value, string $errorCodes = ''): void
+    {
+        $this->context->buildViolation($message)
+            ->setParameter('{{ value }}', $this->formatValue($value))
+            ->setParameter('{{ errorCodes }}', $this->formatValue($errorCodes))
+            ->setCode(Recaptcha3::INVALID_FORMAT_ERROR)
+            ->addViolation();
     }
 }

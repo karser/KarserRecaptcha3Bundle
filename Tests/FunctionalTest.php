@@ -84,13 +84,14 @@ class FunctionalTest extends TestCase
         /** @var RecaptchaMock $recaptchaMock */
         $recaptchaMock = $container->get('karser_recaptcha3.google.recaptcha');
         $recaptchaMock->nextSuccess = false;
+        $recaptchaMock->nextErrorCodes = ['test1', 'test2'];
 
-        $form = $this->createContactForm($this->formFactory);
+        $form = $this->createContactForm($this->formFactory, ['message' => 'Error: {{ errorCodes }}']);
 
         //WHEN
         $form->submit(['name' => 'John', 'captcha' => 'token']);
         //THEN
-        $this->assertFormHasCaptchaError($form);
+        $this->assertFormHasCaptchaError($form, 'Error: "test1; test2"');
     }
 
     public function testFormInvalid_ifCaptchaEmpty()
@@ -107,7 +108,7 @@ class FunctionalTest extends TestCase
         //WHEN
         $form->submit(['name' => 'John', 'captcha' => '']);
         //THEN
-        $this->assertFormHasCaptchaError($form);
+        $this->assertFormHasCaptchaError($form, 'The captcha value is missing');
     }
 
     public function testFormInvalid_ifCaptchaNull()
@@ -124,7 +125,7 @@ class FunctionalTest extends TestCase
         //WHEN
         $form->submit(['name' => 'John', 'captcha' => null]);
         //THEN
-        $this->assertFormHasCaptchaError($form);
+        $this->assertFormHasCaptchaError($form, 'The captcha value is missing');
     }
 
     public function testFormInvalid_ifCaptchaUndefined()
@@ -141,7 +142,7 @@ class FunctionalTest extends TestCase
         //WHEN
         $form->submit(['name' => 'John']);
         //THEN
-        $this->assertFormHasCaptchaError($form);
+        $this->assertFormHasCaptchaError($form, 'The captcha value is missing');
     }
 
     public function testFormValid_ifCaptchaFails_butDisabled()
@@ -162,12 +163,11 @@ class FunctionalTest extends TestCase
         self::assertTrue($form->isValid());
     }
 
-    private function assertFormHasCaptchaError(FormInterface $form)
+    private function assertFormHasCaptchaError(FormInterface $form, string $expectedMessage)
     {
         self::assertTrue($form->isSubmitted());
         self::assertFalse($form->isValid());
-        self::assertSame('Your computer or network may be sending automated queries',
-            $form->getErrors()[0]->getMessage());
+        self::assertSame($expectedMessage, $form->getErrors()[0]->getMessage());
     }
 
     private function bootKernel(string $config): ContainerInterface
@@ -181,7 +181,7 @@ class FunctionalTest extends TestCase
         return $container;
     }
 
-    private function createContactForm(FormFactoryInterface $formFactory)
+    private function createContactForm(FormFactoryInterface $formFactory, array $constraintParams = [])
     {
         return $formFactory->createBuilder(FormType::class)
             ->add('name', TextType::class, [
@@ -190,7 +190,7 @@ class FunctionalTest extends TestCase
                 ],
             ])
             ->add('captcha', Recaptcha3Type::class, [
-                'constraints' => new Recaptcha3(),
+                'constraints' => new Recaptcha3($constraintParams),
             ])
             ->getForm();
     }
