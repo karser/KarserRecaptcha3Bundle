@@ -21,16 +21,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('karser_recaptcha3.validator', Recaptcha3Validator::class)
         ->private()
-        ->args([$this->getService('karser_recaptcha3.google.recaptcha'), '%karser_recaptcha3.enabled%', $this->getService('karser_recaptcha3.ip_resolver')])
+        ->args([getService('karser_recaptcha3.google.recaptcha'), '%karser_recaptcha3.enabled%', getService('karser_recaptcha3.ip_resolver')])
         ->tag('validator.constraint_validator', ['alias' => 'karser_recaptcha3_validator']);
 
     $services->set('karser_recaptcha3.ip_resolver', IpResolver::class)
         ->private()
-        ->args([$this->getService('request_stack')]);
+        ->args([getService('request_stack')]);
 
     $services->set('karser_recaptcha3.google.recaptcha', ReCaptcha::class)
         ->arg('$secret', '%karser_recaptcha3.secret_key%')
-        ->arg('$requestMethod', $this->getService('karser_recaptcha3.google.request_method'))
+        ->arg('$requestMethod', getService('karser_recaptcha3.google.request_method'))
         ->call('setScoreThreshold', ['%karser_recaptcha3.score_threshold%']);
 
     $services->alias('karser_recaptcha3.google.request_method', 'karser_recaptcha3.google.request_method.curl_post');
