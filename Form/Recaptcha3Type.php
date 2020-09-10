@@ -46,7 +46,7 @@ final class Recaptcha3Type extends AbstractType
             'mapped' => false,
             'site_key' => null,
             'action_name' => 'homepage',
-            'script_nonce_csp' => ''
+            'script_nonce_csp' => '',
         ]);
     }
 }
