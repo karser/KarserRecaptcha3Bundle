@@ -39,7 +39,25 @@ class FunctionalTest extends TestCase
         //THEN
         self::assertContains('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
         self::assertContains('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer></script>', $view);
+        self::assertContains('var recaptchaCallback_form_captcha', $view);
         self::assertContains("document.getElementById('form_captcha').value = token;", $view);
+    }
+
+    public function testHyphenConvertedToUnderscore()
+    {
+        //GIVEN
+        $this->bootKernel('default.yml');
+        $form = $this->createContactForm($this->formFactory, [], 'capt-cha');
+
+        $template = $this->twig->createTemplate('{{ form_widget(form) }}');
+        //WHEN
+        $view = $template->render(['form' => $form->createView()]);
+
+        //THEN
+        self::assertContains('<input type="hidden" id="form_capt-cha" name="form[capt-cha]" />', $view);
+        self::assertContains('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_capt_cha" async defer></script>', $view);
+        self::assertContains('var recaptchaCallback_form_capt_cha', $view);
+        self::assertContains("document.getElementById('form_capt-cha').value = token;", $view);
     }
 
     public function testFormJavascriptAbsent_ifDisabled()
@@ -181,7 +199,7 @@ class FunctionalTest extends TestCase
         return $container;
     }
 
-    private function createContactForm(FormFactoryInterface $formFactory, array $constraintParams = [])
+    private function createContactForm(FormFactoryInterface $formFactory, array $constraintParams = [], ?string $captchaId = null)
     {
         return $formFactory->createBuilder(FormType::class)
             ->add('name', TextType::class, [
@@ -189,7 +207,7 @@ class FunctionalTest extends TestCase
                     new NotBlank(),
                 ],
             ])
-            ->add('captcha', Recaptcha3Type::class, [
+            ->add($captchaId ?? 'captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3($constraintParams),
             ])
             ->getForm();
