@@ -37,10 +37,10 @@ class FunctionalTest extends TestCase
         $view = $template->render(['form' => $form->createView()]);
 
         //THEN
-        self::assertContains('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
-        self::assertContains('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer></script>', $view);
-        self::assertContains('var recaptchaCallback_form_captcha', $view);
-        self::assertContains("document.getElementById('form_captcha').value = token;", $view);
+        self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer></script>', $view);
+        self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
+        self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
     }
 
     public function testHyphenConvertedToUnderscore()
@@ -54,10 +54,10 @@ class FunctionalTest extends TestCase
         $view = $template->render(['form' => $form->createView()]);
 
         //THEN
-        self::assertContains('<input type="hidden" id="form_capt-cha" name="form[capt-cha]" />', $view);
-        self::assertContains('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_capt_cha" async defer></script>', $view);
-        self::assertContains('var recaptchaCallback_form_capt_cha', $view);
-        self::assertContains("document.getElementById('form_capt-cha').value = token;", $view);
+        self::assertStringContainsString('<input type="hidden" id="form_capt-cha" name="form[capt-cha]" />', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_capt_cha" async defer></script>', $view);
+        self::assertStringContainsString('var recaptchaCallback_form_capt_cha', $view);
+        self::assertStringContainsString("document.getElementById('form_capt-cha').value = token;", $view);
     }
 
     public function testFormJavascriptAbsent_ifDisabled()
@@ -71,9 +71,9 @@ class FunctionalTest extends TestCase
         $view = $template->render(['form' => $form->createView()]);
 
         //THEN
-        self::assertContains('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
-        self::assertNotContains('<script src="https://www.google.com/recaptcha/api.js?render=key"></script>', $view);
-        self::assertNotContains("document.getElementById('form_captcha').value = token;", $view);
+        self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
+        self::assertStringNotContainsString('<script src="https://www.google.com/recaptcha/api.js?render=key"></script>', $view);
+        self::assertStringNotContainsString("document.getElementById('form_captcha').value = token;", $view);
     }
 
     public function testFormValid_ifEnabled()
