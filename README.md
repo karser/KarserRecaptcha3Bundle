@@ -1,7 +1,7 @@
 KarserRecaptcha3Bundle
 ======================
 
-[![Build Status](https://travis-ci.org/karser/KarserRecaptcha3Bundle.svg?branch=master)](https://travis-ci.org/karser/KarserRecaptcha3Bundle)
+[![Build Status](https://github.com/karser/KarserRecaptcha3Bundle/workflows/Code_Checks/badge.svg)](https://github.com/karser/KarserRecaptcha3Bundle/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/karser/KarserRecaptcha3Bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/karser/KarserRecaptcha3Bundle/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/karser/KarserRecaptcha3Bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/karser/KarserRecaptcha3Bundle/?branch=master)
 [![Total Downloads](https://poser.pugx.org/karser/karser-recaptcha3-bundle/downloads)](https://packagist.org/packages/karser/karser-recaptcha3-bundle)
