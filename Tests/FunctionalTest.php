@@ -38,7 +38,7 @@ class FunctionalTest extends TestCase
 
         //THEN
         self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
         self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
     }
@@ -55,7 +55,7 @@ class FunctionalTest extends TestCase
 
         //THEN
         self::assertStringContainsString('<input type="hidden" id="form_capt-cha" name="form[capt-cha]" />', $view);
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_capt_cha" async defer></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_capt_cha" async defer nonce=""></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_capt_cha', $view);
         self::assertStringContainsString("document.getElementById('form_capt-cha').value = token;", $view);
     }
@@ -181,6 +181,24 @@ class FunctionalTest extends TestCase
         self::assertTrue($form->isValid());
     }
 
+    public function testFormJavascriptNoncePresent_ifSet()
+    {
+        //GIVEN
+        $this->bootKernel('default.yml');
+        $form = $this->createContactForm($this->formFactory, [], null, 'csp_nonce');
+
+        $template = $this->twig->createTemplate('{{ form_widget(form) }}');
+        //WHEN
+        $view = $template->render(['form' => $form->createView()]);
+
+        //THEN
+        self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
+        self::assertStringContainsString('<script type="text/javascript" nonce="csp_nonce">', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce="csp_nonce"></script>', $view);
+        self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
+        self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
+    }
+
     private function assertFormHasCaptchaError(FormInterface $form, string $expectedMessage)
     {
         self::assertTrue($form->isSubmitted());
@@ -199,7 +217,7 @@ class FunctionalTest extends TestCase
         return $container;
     }
 
-    private function createContactForm(FormFactoryInterface $formFactory, array $constraintParams = [], ?string $captchaId = null)
+    private function createContactForm(FormFactoryInterface $formFactory, array $constraintParams = [], ?string $captchaId = null, ?string $nonce = null)
     {
         return $formFactory->createBuilder(FormType::class)
             ->add('name', TextType::class, [
@@ -209,6 +227,7 @@ class FunctionalTest extends TestCase
             ])
             ->add($captchaId ?? 'captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3($constraintParams),
+                'script_nonce_csp' => $nonce
             ])
             ->getForm();
     }
