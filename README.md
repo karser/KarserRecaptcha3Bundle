@@ -99,6 +99,30 @@ Notes:
 - The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
 - The `script_nonce_csp` parameter is optional. You must use the same nonce as in your Content-Security Policy header.
 
+### How to get the ReCaptcha score:
+
+Inject the Recaptcha3Validator and call `getLastResponse()->getScore()` after the form was submitted:
+```php
+<?php
+
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
+
+class TaskController extends AbstractController
+{
+    public function new(Request $request, Recaptcha3Validator $recaptcha3Validator): Response
+    {
+        //...
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //...
+            $score = $recaptcha3Validator->getLastResponse()->getScore();
+            //...
+        }
+        //...
+    }
+}
+```
+
 ### How to integrate re-captcha in API method:
 
 The idea is to require the frontend to submit the captcha token, so it will be validated on server side.
