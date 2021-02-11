@@ -96,4 +96,15 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
             [null],
         ];
     }
+
+    public function testLastResponse()
+    {
+        $this->recaptcha->nextSuccess = true;
+
+        $validator = new Recaptcha3Validator($this->recaptcha, $enabled = true, $this->resolver);
+        self::assertNull($this->validator->getLastResponse());
+
+        $validator->validate('test', new Recaptcha3());
+        self::assertNotNull($validator->getLastResponse());
+    }
 }

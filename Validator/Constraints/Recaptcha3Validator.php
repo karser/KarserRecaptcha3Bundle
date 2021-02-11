@@ -4,6 +4,7 @@ namespace Karser\Recaptcha3Bundle\Validator\Constraints;
 
 use Karser\Recaptcha3Bundle\Services\IpResolverInterface;
 use ReCaptcha\ReCaptcha;
+use ReCaptcha\Response;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -14,6 +15,9 @@ final class Recaptcha3Validator extends ConstraintValidator
     private $recaptcha;
     private $enabled;
     private $ipResolver;
+
+    /** @var Response|null */
+    private $lastResponse;
 
     public function __construct($recaptcha, bool $enabled, IpResolverInterface $ipResolver)
     {
@@ -37,6 +41,11 @@ final class Recaptcha3Validator extends ConstraintValidator
         $this->validateCaptcha($value, $constraint);
     }
 
+    public function getLastResponse(): ?Response
+    {
+        return $this->lastResponse;
+    }
+
     private function validateCaptcha(string $value, Recaptcha3 $constraint): void
     {
         if ($value === '') {
@@ -44,7 +53,7 @@ final class Recaptcha3Validator extends ConstraintValidator
             return;
         }
         $ip = $this->ipResolver->resolveIp();
-        $response = $this->recaptcha->verify($value, $ip);
+        $this->lastResponse = $response = $this->recaptcha->verify($value, $ip);
         if (!$response->isSuccess()) {
             $errorCodes = implode('; ', array_map([$this, 'getErrorMessage'], $response->getErrorCodes()));
             $this->buildViolation($constraint->message, $value, $errorCodes);
