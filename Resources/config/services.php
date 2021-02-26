@@ -24,6 +24,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->args([new ReferenceConfigurator('karser_recaptcha3.google.recaptcha'), '%karser_recaptcha3.enabled%', new ReferenceConfigurator('karser_recaptcha3.ip_resolver')])
         ->tag('validator.constraint_validator', ['alias' => 'karser_recaptcha3_validator']);
 
+    $services->alias(Recaptcha3Validator::class, 'karser_recaptcha3.validator');
+
     $services->set('karser_recaptcha3.ip_resolver', IpResolver::class)
         ->private()
         ->args([new ReferenceConfigurator('request_stack')]);
