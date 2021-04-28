@@ -107,4 +107,11 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
         $validator->validate('test', new Recaptcha3());
         self::assertNotNull($validator->getLastResponse());
     }
+
+    public function testGetErrorName()
+    {
+        $constraint = new Recaptcha3();
+
+        self::assertSame('INVALID_FORMAT_ERROR', $constraint::getErrorName('7147ffdb-0af4-4f7a-bd5e-e9dcfa6d7a2d'));
+    }
 }
