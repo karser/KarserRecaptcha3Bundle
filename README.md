@@ -99,6 +99,29 @@ Notes:
 - The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
 - The `script_nonce_csp` parameter is optional. You must use the same nonce as in your Content-Security Policy header.
 
+### How can I set the captcha language for different locales?
+
+You should install the [Symfony Translation component](https://symfony.com/doc/current/translation.html).
+Then replace the validation text with the translation keys for the message and messageMissingValue options:
+```php
+$builder->add('captcha', Recaptcha3Type::class, [
+     'constraints' => new Recaptcha3 ([
+         'message' => 'karser_recaptcha3.message',
+         'messageMissingValue' => 'karser_recaptcha3.message_missing_value',
+     ]),
+]);
+````
+Add English, Spanish, or any other translation:
+```
+# translations/validators/validators.en.yaml
+karser_recaptcha3.message: 'Your computer or network may be sending automated queries'
+karser_recaptcha3.message_missing_value: 'The captcha value is missing'
+
+# translations/validators/validators.es.yaml
+karser_recaptcha3.message: 'Es posible que su computadora o red esté enviando consultas automatizadas'
+karser_recaptcha3.message_missing_value: 'Falta el valor de captcha'
+```
+
 ### How to get the ReCaptcha score:
 
 Inject the Recaptcha3Validator and call `getLastResponse()->getScore()` after the form was submitted:
