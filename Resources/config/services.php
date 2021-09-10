@@ -11,7 +11,7 @@ use ReCaptcha\RequestMethod\Curl;
 use ReCaptcha\RequestMethod\CurlPost;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -53,7 +53,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set('karser_recaptcha3.google.request_method.curl_post', CurlPost::class)
         ->args([
             new ReferenceConfigurator('karser_recaptcha3.google.request_method.curl'),
-            expr("service('karser_recaptcha3.host_provider').getVerifyUrl()")
+            new Expression("service('karser_recaptcha3.host_provider').getVerifyUrl()")
         ]);
 
     $services->set('karser_recaptcha3.google.request_method.curl', Curl::class);
