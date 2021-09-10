@@ -82,8 +82,7 @@ jobs:
             ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
       - name: Install PHP dependencies
-        run: |
-          run: composer install --no-interaction
+        run: composer install --no-interaction
 
       - name: Run code coverage
         run: vendor/bin/phpunit -v --coverage-text --coverage-clover=coverage.clover
