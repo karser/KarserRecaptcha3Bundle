@@ -210,7 +210,7 @@ class FunctionalTest extends TestCase
         $view = $template->render(['form' => $form->createView()]);
 
         //THEN
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.recaptcha.net/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.recaptcha.net/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
     }
 
     private function assertFormHasCaptchaError(FormInterface $form, string $expectedMessage)

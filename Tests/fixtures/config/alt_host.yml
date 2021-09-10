@@ -4,5 +4,5 @@ imports:
 karser_recaptcha3:
     site_key: 'key'
     secret_key: 'secret'
-    host: 'recaptcha.net'
+    host: 'www.recaptcha.net'
     enabled: true

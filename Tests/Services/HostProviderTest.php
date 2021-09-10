@@ -11,19 +11,19 @@ class HostProviderTest extends TestCase
 
     public function test__construct()
     {
-        $hostProvider = new HostProvider('a-domain.tld');
+        $hostProvider = new HostProvider('www.a-domain.tld');
         self::assertInstanceOf(HostProviderInterface::class, $hostProvider);
     }
 
     public function testGetHost()
     {
-        $hostProvider = new HostProvider('a-domain.tld');
-        self::assertEquals('a-domain.tld', $hostProvider->getHost());
+        $hostProvider = new HostProvider('www.a-domain.tld');
+        self::assertEquals('www.a-domain.tld', $hostProvider->getHost());
     }
 
     public function testGetVerifyUrl()
     {
-        $hostProvider = new HostProvider('a-domain.tld');
+        $hostProvider = new HostProvider('www.a-domain.tld');
         self::assertEquals('https://www.a-domain.tld/recaptcha/api/siteverify', $hostProvider->getVerifyUrl());
     }
 }

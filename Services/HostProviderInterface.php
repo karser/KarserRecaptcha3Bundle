@@ -6,8 +6,8 @@ namespace Karser\Recaptcha3Bundle\Services;
 
 interface HostProviderInterface
 {
-    public const DEFAULT_HOST = 'google.com';
-    public const ALT_HOST = 'recaptcha.net';
+    public const DEFAULT_HOST = 'www.google.com';
+    public const ALT_HOST = 'www.recaptcha.net';
 
     public function getHost(): string;
 

@@ -13,7 +13,7 @@
                     setTimeout(recaptchaCallback_{{ validJsId }}, 100000);
                 };
             </script>
-            <script type="text/javascript" src="https://www.{{ form.vars.host }}/recaptcha/api.js?render={{ form.vars.site_key }}&onload=recaptchaCallback_{{ validJsId }}" async defer{% if form.vars.script_nonce_csp is not empty %} nonce="{{ form.vars.script_nonce_csp }}"{% endif %}></script>
+            <script type="text/javascript" src="https://{{ form.vars.host }}/recaptcha/api.js?render={{ form.vars.site_key }}&onload=recaptchaCallback_{{ validJsId }}" async defer{% if form.vars.script_nonce_csp is defined %} nonce="{{ form.vars.script_nonce_csp }}"{% endif %}></script>
         {%- endif %}
     {% endapply %}
 {% endblock %}
