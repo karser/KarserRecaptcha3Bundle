@@ -48,8 +48,7 @@ jobs:
           composer config extra.symfony.require "${{ matrix.symfony }}"
 
       - name: Install PHP dependencies
-        run: |
-          run: composer install --no-interaction
+        run: composer install --no-interaction
 
       - name: Validate composer.json
         run: composer validate --ansi --strict
