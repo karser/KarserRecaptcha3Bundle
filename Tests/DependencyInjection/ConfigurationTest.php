@@ -33,6 +33,39 @@ class ConfigurationTest extends TestCase
                     'site_key' => 'key',
                     'secret_key' => 'secret',
                     'score_threshold' => 0.5,
+                    'host' => 'google.com',
+                    'enabled' => true,
+                ],
+            ],
+            [
+                [
+                    'karser_recaptcha3' => [
+                        'site_key' => 'key',
+                        'secret_key' => 'secret',
+                        'host' => 'google.com',
+                    ]
+                ],
+                [
+                    'site_key' => 'key',
+                    'secret_key' => 'secret',
+                    'host' => 'google.com',
+                    'score_threshold' => 0.5,
+                    'enabled' => true,
+                ],
+            ],
+            [
+                [
+                    'karser_recaptcha3' => [
+                        'site_key' => 'key',
+                        'secret_key' => 'secret',
+                        'host' => 'recaptcha.net',
+                    ]
+                ],
+                [
+                    'site_key' => 'key',
+                    'secret_key' => 'secret',
+                    'host' => 'recaptcha.net',
+                    'score_threshold' => 0.5,
                     'enabled' => true,
                 ],
             ],
@@ -50,6 +83,7 @@ class ConfigurationTest extends TestCase
                     'secret_key' => 'secret',
                     'score_threshold' => 0.7,
                     'enabled' => false,
+                    'host' => 'google.com',
                 ],
             ],
         ];

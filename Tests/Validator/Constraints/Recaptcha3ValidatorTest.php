@@ -7,6 +7,7 @@ use Karser\Recaptcha3Bundle\Tests\fixtures\RecaptchaMock;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
@@ -113,5 +114,13 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
         $constraint = new Recaptcha3();
 
         self::assertSame('INVALID_FORMAT_ERROR', $constraint::getErrorName('7147ffdb-0af4-4f7a-bd5e-e9dcfa6d7a2d'));
+    }
+
+    public function testThrowException()
+    {
+        $constraint = $this->createMock(Constraint::class);
+
+        self::expectException(UnexpectedTypeException::class);
+        $this->validator->validate('invalid-token', $constraint);
     }
 }
