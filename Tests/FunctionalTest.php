@@ -199,6 +199,20 @@ class FunctionalTest extends TestCase
         self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
     }
 
+    public function testFormJavascriptAltHostIsPreserved_ifSet()
+    {
+        //GIVEN
+        $this->bootKernel('alt_host.yml');
+        $form = $this->createContactForm($this->formFactory, [], null);
+
+        $template = $this->twig->createTemplate('{{ form_widget(form) }}');
+        //WHEN
+        $view = $template->render(['form' => $form->createView()]);
+
+        //THEN
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.recaptcha.net/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
+    }
+
     private function assertFormHasCaptchaError(FormInterface $form, string $expectedMessage)
     {
         self::assertTrue($form->isSubmitted());

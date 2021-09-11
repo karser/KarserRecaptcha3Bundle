@@ -7,33 +7,55 @@ on:
   pull_request:
   schedule:
     - cron: '0 0 1,16 * *'
+  workflow_dispatch: ~
 
 jobs:
   phpunit:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['7.2', '7.4', '8.0']
-        symfony: ['4.4.*', '5.2.*']
+        php: ['7.1', '7.2', '7.4', '8.0']
+        symfony: ['^3.4', '^4.0', '^5.0']
+        exclude:
+          - symfony: ^5.0
+            php: 7.1
       fail-fast: false
     name: PHPUnit (PHP ${{ matrix.php }}) (Symfony ${{ matrix.symfony }})
     steps:
-      # basically git clone
-      - uses: actions/checkout@v2
 
-      # use PHP of specific version
-      - uses: shivammathur/setup-php@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php }}
           coverage: none # disable xdebug, pcov
 
-      # if we 2 steps like this, we can better see if composer failed or tests
-      - name: Install dependencies
-        env:
-          SYMFONY_REQUIRE: ${{ matrix.symfony }}
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-composer-
+
+      - name: Restrict Symfony version
+        if: matrix.symfony != ''
         run: |
-          composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-main
-          composer update --prefer-dist --no-interaction --no-suggest
+          composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
+          composer config extra.symfony.require "${{ matrix.symfony }}"
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction
+
+      - name: Validate composer.json
+        run: composer validate --ansi --strict
+
       - name: Run tests
         run: vendor/bin/phpunit
 
@@ -50,15 +72,21 @@ jobs:
           php-version: 7.4
           coverage: xdebug
 
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.composer/cache/files
-          key: coverage-${{ hashFiles('composer.json') }}
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Install dependencies
-        run: |
-          composer update --prefer-dist --no-interaction --no-suggest
+      - name: Cache Composer
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-composer-
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction
+
       - name: Run code coverage
         run: vendor/bin/phpunit -v --coverage-text --coverage-clover=coverage.clover
 

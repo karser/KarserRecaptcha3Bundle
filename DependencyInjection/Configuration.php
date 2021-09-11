@@ -2,6 +2,7 @@
 
 namespace Karser\Recaptcha3Bundle\DependencyInjection;
 
+use Karser\Recaptcha3Bundle\Services\HostProviderInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -22,6 +23,14 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('site_key')->isRequired()->end()
                 ->scalarNode('secret_key')->isRequired()->end()
                 ->floatNode('score_threshold')->min(0.0)->max(1.0)->defaultValue(0.5)->end()
+                ->scalarNode('host')
+                    ->defaultValue(HostProviderInterface::DEFAULT_HOST)
+                    ->info(sprintf(
+                        'Default host is "%s", if it is not reachable then use "%s" instead.',
+                        HostProviderInterface::DEFAULT_HOST,
+                        HostProviderInterface::ALT_HOST
+                    ))
+                ->end()
                 ->booleanNode('enabled')->defaultTrue()->end()
             ->end()
         ;

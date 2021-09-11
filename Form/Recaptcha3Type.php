@@ -13,18 +13,23 @@ final class Recaptcha3Type extends AbstractType
     /** @var string */
     private $siteKey;
 
+    /** @var string */
+    private $host;
+
     /** @var bool */
     private $enabled;
 
-    public function __construct(string $siteKey, bool $enabled)
+    public function __construct(string $siteKey, string $host, bool $enabled)
     {
         $this->siteKey = $siteKey;
+        $this->host = $host;
         $this->enabled = $enabled;
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['site_key'] = $this->siteKey;
+        $view->vars['host'] = $this->host;
         $view->vars['enabled'] = $this->enabled;
         $view->vars['action_name'] = $options['action_name'];
         $view->vars['script_nonce_csp'] = $options['script_nonce_csp'] ?? '';
@@ -45,6 +50,7 @@ final class Recaptcha3Type extends AbstractType
         $resolver->setDefaults([
             'mapped' => false,
             'site_key' => null,
+            'host' => null,
             'action_name' => 'homepage',
             'script_nonce_csp' => '',
         ]);
