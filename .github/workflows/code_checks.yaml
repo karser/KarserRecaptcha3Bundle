@@ -16,6 +16,9 @@ jobs:
       matrix:
         php: ['7.1', '7.2', '7.4', '8.0']
         symfony: ['^3.4', '^4.0', '^5.0']
+        exclude:
+          - symfony: ^5.0
+            php: 7.1
       fail-fast: false
     name: PHPUnit (PHP ${{ matrix.php }}) (Symfony ${{ matrix.symfony }})
     steps:
