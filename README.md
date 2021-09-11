@@ -78,13 +78,13 @@ Usage
 
 ### How to use reCAPTCHA globally (meaning even in China):
 
-Use `'recaptcha.net'` host in your code when `'google.com'` is not accessible.
+Use `'www.recaptcha.net'` host in your code when `'www.google.com'` is not accessible.
 
 ```yaml
 # config/packages/karser_recaptcha3.yaml (or app/config/config.yml if using Symfony3)
 
 karser_recaptcha3:
-    host: 'recaptcha.net' # default is 'google.com'
+    host: 'www.recaptcha.net' # default is 'google.com'
 ```
 
 ### How to integrate re-captcha in Symfony form:
