@@ -76,17 +76,6 @@ RECAPTCHA3_SECRET=my_secret
 Usage
 -----
 
-### How to use reCAPTCHA globally (meaning even in China):
-
-Use `'www.recaptcha.net'` host in your code when `'www.google.com'` is not accessible.
-
-```yaml
-# config/packages/karser_recaptcha3.yaml (or app/config/config.yml if using Symfony3)
-
-karser_recaptcha3:
-    host: 'www.recaptcha.net' # default is 'google.com'
-```
-
 ### How to integrate re-captcha in Symfony form:
 
 ```php
@@ -110,6 +99,17 @@ class TaskType extends AbstractType
 Notes:
 - The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
 - The `script_nonce_csp` parameter is optional. You must use the same nonce as in your Content-Security Policy header.
+
+### How to use reCAPTCHA globally (meaning even in China):
+
+Use `'www.recaptcha.net'` host in your code when `'www.google.com'` is not accessible.
+
+```yaml
+# config/packages/karser_recaptcha3.yaml (or app/config/config.yml if using Symfony3)
+
+karser_recaptcha3:
+    host: 'www.recaptcha.net' # default is 'www.google.com'
+```
 
 ### How can I set the captcha language for different locales?
 
