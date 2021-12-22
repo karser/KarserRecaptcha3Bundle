@@ -32,7 +32,7 @@ Configuration without symfony/flex:
 
 ### 1. Register the bundle
 
-**Symfony 4/5 Version :**   
+**Symfony 4/5/6 Version :**   
 Register bundle into `config/bundles.php`:
 ```php 
 return [
