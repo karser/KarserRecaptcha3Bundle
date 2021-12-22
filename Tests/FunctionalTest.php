@@ -225,8 +225,8 @@ class FunctionalTest extends TestCase
         $this->kernel->setConfigurationFilename(__DIR__ . '/fixtures/config/'.$config);
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
-        $this->formFactory = $container->get('form.factory');
-        $this->twig = $container->get('twig');
+        $this->formFactory = $container->get('form.factory.public');
+        $this->twig = $container->get('twig.public');
 
         return $container;
     }

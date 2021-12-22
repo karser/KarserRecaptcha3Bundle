@@ -22,7 +22,7 @@ class TestKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerBundles()
+    public function registerBundles(): array
     {
         return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -37,14 +37,15 @@ class TestKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->configurationFilename);
+        $loader->load(self::MAJOR_VERSION >= 6 ? __DIR__.'/fixtures/config/symfony6.yml' : __DIR__.'/fixtures/config/symfony4.yml');
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return sys_get_temp_dir().'/KarserRecaptcha3Bundle/log';
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return sys_get_temp_dir().'/KarserRecaptcha3Bundle/cache/'.$this->environment;
     }
