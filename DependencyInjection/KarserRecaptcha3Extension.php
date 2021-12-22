@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class KarserRecaptcha3Extension extends ConfigurableExtension implements PrependExtensionInterface
 {
-    public function loadInternal(array $configs, ContainerBuilder $container)
+    public function loadInternal(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.php');
@@ -19,7 +19,7 @@ class KarserRecaptcha3Extension extends ConfigurableExtension implements Prepend
         }
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         if ($container->hasExtension('twig')) {
             // inject template
