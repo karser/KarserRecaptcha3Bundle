@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
             $treeBuilder = new TreeBuilder('karser_recaptcha3');
