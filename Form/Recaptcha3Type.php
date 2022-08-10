@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class Recaptcha3Type extends AbstractType
@@ -33,6 +34,7 @@ final class Recaptcha3Type extends AbstractType
         $view->vars['enabled'] = $this->enabled;
         $view->vars['action_name'] = $options['action_name'];
         $view->vars['script_nonce_csp'] = $options['script_nonce_csp'] ?? '';
+        $view->vars['locale'] = $options['locale'] ?? 'en';
     }
 
     public function getParent(): string
@@ -52,6 +54,7 @@ final class Recaptcha3Type extends AbstractType
             'site_key' => null,
             'host' => null,
             'action_name' => 'homepage',
+            'locale' => 'en',
             'script_nonce_csp' => '',
         ]);
     }

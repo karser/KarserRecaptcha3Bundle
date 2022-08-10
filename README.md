@@ -92,6 +92,7 @@ class TaskType extends AbstractType
             'constraints' => new Recaptcha3(),
             'action_name' => 'homepage',
             'script_nonce_csp' => $nonceCSP,
+            'locale' => 'de',
         ]);
     }
 }
@@ -99,6 +100,7 @@ class TaskType extends AbstractType
 Notes:
 - The `action_name` parameter is [reCAPTCHA v3 action](https://developers.google.com/recaptcha/docs/v3#actions) which identifies the submission of this particular form in the Google reCAPTCHA dashboard, and confirming it is as expected in the backend is a recommended extra security step.
 - The `script_nonce_csp` parameter is optional. You must use the same nonce as in your Content-Security Policy header.
+- The `locale` parameter is optional. It defaults to English and controls the language on the reCaptcha widget.
 
 ### How to use reCAPTCHA globally (meaning even in China):
 
@@ -113,7 +115,10 @@ karser_recaptcha3:
 
 ### How can I set the captcha language for different locales?
 
-You should install the [Symfony Translation component](https://symfony.com/doc/current/translation.html).
+You can control the language in the small widget displayed by setting the locale in the options above.
+
+To change the error messages, you should install the [Symfony Translation component](https://symfony.com/doc/current/translation.html).
+
 Then replace the validation text with the translation keys for the message and messageMissingValue options:
 ```php
 $builder->add('captcha', Recaptcha3Type::class, [

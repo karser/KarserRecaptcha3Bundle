@@ -1,11 +1,6 @@
 {% block karser_recaptcha3_widget %}
     {% apply spaceless %}
         {%- set type = type|default('hidden') -%}
-        {%- if not app.getSession().getLocale() is null -%} {# Prior to Symfony 2.1 you must get from session, it will be null if upper #}
-          {%- set locale app.getSession().getLocale() -%}
-        {%- else -%} {# With Symfony 2.1 or upper you only can get the locale from request #}
-            {%- set locale = app.getRequest().getLocale() -%}
-        {%- endif -%}
         {{ block('form_widget_simple') }}
 
         {% if form.vars.enabled -%}
@@ -18,7 +13,7 @@
                     setTimeout(recaptchaCallback_{{ validJsId }}, 100000);
                 };
             </script>
-            <script type="text/javascript" src="https://{{ form.vars.host }}/recaptcha/api.js?render={{ form.vars.site_key }}&hl={{ locale }}&onload=recaptchaCallback_{{ validJsId }}" async defer{% if form.vars.script_nonce_csp is defined %} nonce="{{ form.vars.script_nonce_csp }}"{% endif %}></script>
+            <script type="text/javascript" src="https://{{ form.vars.host }}/recaptcha/api.js?render={{ form.vars.site_key }}&hl={{ form.vars.locale }}&onload=recaptchaCallback_{{ validJsId }}" async defer{% if form.vars.script_nonce_csp is defined %} nonce="{{ form.vars.script_nonce_csp }}"{% endif %}></script>
         {%- endif %}
     {% endapply %}
 {% endblock %}
