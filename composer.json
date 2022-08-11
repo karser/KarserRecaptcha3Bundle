@@ -57,5 +57,8 @@
     "branch-alias": {
       "dev-master": "0.1.x-dev"
     }
+  },
+  "allow-plugins": {
+    "symfony/flex": true
   }
 }
