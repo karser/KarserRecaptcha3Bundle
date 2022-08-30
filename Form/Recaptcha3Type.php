@@ -33,6 +33,7 @@ final class Recaptcha3Type extends AbstractType
         $view->vars['enabled'] = $this->enabled;
         $view->vars['action_name'] = $options['action_name'];
         $view->vars['script_nonce_csp'] = $options['script_nonce_csp'] ?? '';
+        $view->vars['locale'] = $options['locale'] ?? 'en';
     }
 
     public function getParent(): string
@@ -52,6 +53,7 @@ final class Recaptcha3Type extends AbstractType
             'site_key' => null,
             'host' => null,
             'action_name' => 'homepage',
+            'locale' => 'en',
             'script_nonce_csp' => '',
         ]);
     }
