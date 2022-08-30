@@ -38,7 +38,7 @@ class FunctionalTest extends TestCase
 
         //THEN
         self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
         self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
     }
@@ -55,7 +55,7 @@ class FunctionalTest extends TestCase
 
         //THEN
         self::assertStringContainsString('<input type="hidden" id="form_capt-cha" name="form[capt-cha]" />', $view);
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_capt_cha" async defer nonce=""></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_capt_cha" async defer nonce=""></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_capt_cha', $view);
         self::assertStringContainsString("document.getElementById('form_capt-cha').value = token;", $view);
     }
@@ -194,7 +194,7 @@ class FunctionalTest extends TestCase
         //THEN
         self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]" />', $view);
         self::assertStringContainsString('<script type="text/javascript" nonce="csp_nonce">', $view);
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce="csp_nonce"></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_captcha" async defer nonce="csp_nonce"></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
         self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
     }
@@ -210,7 +210,7 @@ class FunctionalTest extends TestCase
         $view = $template->render(['form' => $form->createView()]);
 
         //THEN
-        self::assertStringContainsString('<script type="text/javascript" src="https://www.recaptcha.net/recaptcha/api.js?render=key&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
+        self::assertStringContainsString('<script type="text/javascript" src="https://www.recaptcha.net/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
     }
 
     private function assertFormHasCaptchaError(FormInterface $form, string $expectedMessage)
