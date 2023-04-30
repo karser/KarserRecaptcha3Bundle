@@ -96,7 +96,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: Run code coverage
-        run: vendor/bin/phpunit -v --coverage-text --coverage-clover=coverage.clover
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
       - name: Send code coverage
         run: |
