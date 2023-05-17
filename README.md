@@ -339,6 +339,11 @@ services:
             $requestStack: '@request_stack'
 ```
 
+### Symfony HttpClient integration
+
+If you have a dependency on `symfony/http-client` in your application then it will be automatically wired
+to use via `RequestMethod/SymfonyHttpClient`.
+
 Troubleshooting checklist
 -------------------------
 

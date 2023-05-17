@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Karser\Recaptcha3Bundle\Services\HostProvider;
 use Karser\Recaptcha3Bundle\Services\IpResolver;
+use Karser\Recaptcha3Bundle\RequestMethod\SymfonyHttpClient;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use ReCaptcha\ReCaptcha;
 use ReCaptcha\RequestMethod\Curl;
@@ -57,4 +58,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->set('karser_recaptcha3.google.request_method.curl', Curl::class);
+
+    $services->set('karser_recaptcha3.request_method.symfony_http_client', SymfonyHttpClient::class)
+        ->args([
+            (new ReferenceConfigurator('http_client'))->ignoreOnInvalid(),
+            new Expression("service('karser_recaptcha3.host_provider').getVerifyUrl()")
+        ]);
 };

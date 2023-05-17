@@ -1,0 +1,23 @@
+framework:
+  secret: ThisIsNotReallyASecretSoPleaseChangeIt
+  test: true
+  form: ~
+  http_client:
+    mock_response_factory: Karser\Recaptcha3Bundle\Tests\fixtures\MockHttpClientCallback
+
+services:
+  form.factory.public:
+    alias: form.factory
+    public: true
+  twig.public:
+    alias: twig
+    public: true
+  karser_recaptcha3.google.recaptcha.public:
+    alias: karser_recaptcha3.google.recaptcha
+    public: true
+  Karser\Recaptcha3Bundle\Tests\fixtures\MockHttpClientCallback: ~
+
+karser_recaptcha3:
+  site_key: 'key'
+  secret_key: 'secret'
+  enabled: true

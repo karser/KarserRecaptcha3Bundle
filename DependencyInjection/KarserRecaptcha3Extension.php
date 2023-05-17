@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class KarserRecaptcha3Extension extends ConfigurableExtension implements PrependExtensionInterface
 {
@@ -16,6 +17,12 @@ class KarserRecaptcha3Extension extends ConfigurableExtension implements Prepend
         $loader->load('services.php');
         foreach ($configs as $key => $value) {
             $container->setParameter('karser_recaptcha3.'.$key, $value);
+        }
+
+        if (interface_exists(HttpClientInterface::class)) {
+            $container->setAlias('karser_recaptcha3.google.request_method', 'karser_recaptcha3.request_method.symfony_http_client');
+        } else {
+            $container->removeDefinition('karser_recaptcha3.request_method.symfony_http_client');
         }
     }
 

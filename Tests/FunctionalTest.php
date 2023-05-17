@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class FunctionalTest extends TestCase
@@ -211,6 +212,21 @@ class FunctionalTest extends TestCase
 
         //THEN
         self::assertStringContainsString('<script type="text/javascript" src="https://www.recaptcha.net/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
+    }
+
+    public function testUsesSymfonyHttpClient()
+    {
+        if (Kernel::VERSION_ID < 50200) {
+            self::markTestSkipped('skip');
+        }
+
+        $this->bootKernel('http_client.yml');
+
+        $form = $this->createContactForm($this->formFactory);
+        $form->submit(['name' => 'John', 'captcha' => 'token']);
+
+        self::assertTrue($form->isSubmitted());
+        self::assertTrue($form->isValid());
     }
 
     private function assertFormHasCaptchaError(FormInterface $form, string $expectedMessage)
