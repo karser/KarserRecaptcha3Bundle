@@ -68,7 +68,7 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function invalidTokensProvider()
+    public static function invalidTokensProvider()
     {
         return [
             ['invalid-token'],
@@ -90,7 +90,7 @@ class Recaptcha3ValidatorTest extends ConstraintValidatorTestCase
             ->assertRaised();
     }
 
-    public function emptyTokensProvider()
+    public static function emptyTokensProvider()
     {
         return [
             [''],

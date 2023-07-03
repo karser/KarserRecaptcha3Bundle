@@ -19,7 +19,7 @@ class ConfigurationTest extends TestCase
         self::assertSame($expectedConfig, $config);
     }
 
-    public function dataForProcessedConfiguration()
+    public static function dataForProcessedConfiguration()
     {
         return [
             [
