@@ -14,11 +14,27 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['7.1', '7.2', '7.4', '8.0', '8.1', '8.2']
-        symfony: ['^3.4', '^4.0', '^5.0']
+        php: ['7.1', '7.2', '7.4', '8.0', '8.1', '8.2', '8.3']
+        symfony: ['^3.4', '^4.0', '^5.0', '^6.0', '^7.0']
         exclude:
           - symfony: ^5.0
             php: 7.1
+          - symfony: ^6.0
+            php: 7.1
+          - symfony: ^6.0
+            php: 7.2
+          - symfony: ^6.0
+            php: 7.4
+          - symfony: ^7.0
+            php: 7.1
+          - symfony: ^7.0
+            php: 7.2
+          - symfony: ^7.0
+            php: 7.4
+          - symfony: ^7.0
+            php: 8.0
+          - symfony: ^7.0
+            php: 8.1
         include:
           - symfony: ^6.0
             php: 8.0
@@ -26,48 +42,36 @@ jobs:
             php: 8.1
           - symfony: ^6.0
             php: 8.2
+          - symfony: ^7.0
+            php: 8.2
+          - symfony: ^7.0
+            php: 8.3
       fail-fast: false
     name: PHPUnit (PHP ${{ matrix.php }}) (Symfony ${{ matrix.symfony }})
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          tools: flex
           coverage: none # disable xdebug, pcov
 
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Validate composer.json
+        run: composer validate --ansi --strict
 
-      - name: Cache Composer
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-composer-
-
-      - name: Restrict Symfony version
-        if: matrix.symfony != ''
-        run: |
-          composer global require --no-progress --no-scripts --no-plugins "symfony/flex"
-          composer global config --no-plugins allow-plugins.symfony/flex true
-          composer config extra.symfony.require "${{ matrix.symfony }}"
+      - name: Install PHP dependencies
+        uses: ramsey/composer-install@v2
+        env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}
 
       # remove this after support for symfony 3 is dropped
       - name: Remove PhpUnit 10 support for old Symfony Versions
         if: matrix.symfony == '^3.4' || matrix.symfony == '^4.0'
         run: composer require --no-update "phpunit/phpunit:^7|^8|^9"
-
-      - name: Install PHP dependencies
-        run: composer install --no-interaction
-
-      - name: Validate composer.json
-        run: composer validate --ansi --strict
 
       - name: Run tests
         run: vendor/bin/phpunit
@@ -77,28 +81,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.3
           coverage: xdebug
 
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Composer
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-composer-
-
       - name: Install PHP dependencies
-        run: composer install --no-interaction
+        uses: ramsey/composer-install@v2
 
       - name: Run code coverage
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
