@@ -13,9 +13,11 @@ final class Recaptcha3 extends Constraint
 {
     const INVALID_FORMAT_ERROR = '7147ffdb-0af4-4f7a-bd5e-e9dcfa6d7a2d';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::INVALID_FORMAT_ERROR => 'INVALID_FORMAT_ERROR',
     ];
+
+    protected static $errorNames = self::ERROR_NAMES;
 
     public $message = 'Your computer or network may be sending automated queries';
     public $messageMissingValue = 'The captcha value is missing';
