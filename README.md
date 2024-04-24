@@ -10,7 +10,7 @@ reCAPTCHA v3 returns a score for each request without user friction.
 The score is based on interactions with your site (1.0 is very likely a good interaction,
 0.0 is very likely a bot) and enables you to
 take an appropriate action for your site. Register reCAPTCHA v3 keys
-[here](https://g.co/recaptcha/v3).
+[here]([https://g.co/recaptcha/v3](https://www.google.com/recaptcha/admin/create)).
 
 ![image](https://user-images.githubusercontent.com/1675033/58698825-bbca8e00-83a4-11e9-9627-e3a2b1a6c074.png)
 
