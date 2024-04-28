@@ -27,14 +27,14 @@ class Recaptcha3TypeTest extends TypeTestCase
         $form = $this->factory->create(Recaptcha3Type::class);
         $form->setData($data);
 
-        $this->assertTrue($form->isSynchronized());
-        $this->assertEquals($data, $form->getData());
+        self::assertTrue($form->isSynchronized());
+        self::assertEquals($data, $form->getData());
 
         $view = $form->createView();
-        $this->assertSame(self::SITEKEY, $view->vars['site_key']);
-        $this->assertSame(self::HOST, $view->vars['host']);
-        $this->assertSame('homepage', $view->vars['action_name']);
-        $this->assertSame('', $view->vars['script_nonce_csp']);
-        $this->assertTrue($view->vars['enabled']);
+        self::assertSame(self::SITEKEY, $view->vars['site_key']);
+        self::assertSame(self::HOST, $view->vars['host']);
+        self::assertSame('homepage', $view->vars['action_name']);
+        self::assertSame('', $view->vars['script_nonce_csp']);
+        self::assertTrue($view->vars['enabled']);
     }
 }

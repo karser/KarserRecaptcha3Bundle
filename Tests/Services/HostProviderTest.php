@@ -3,7 +3,6 @@
 namespace Services;
 
 use Karser\Recaptcha3Bundle\Services\HostProvider;
-use Karser\Recaptcha3Bundle\Services\HostProviderInterface;
 use PHPUnit\Framework\TestCase;
 
 class HostProviderTest extends TestCase
@@ -12,7 +11,7 @@ class HostProviderTest extends TestCase
     public function test__construct()
     {
         $hostProvider = new HostProvider('www.a-domain.tld');
-        self::assertInstanceOf(HostProviderInterface::class, $hostProvider);
+        self::assertSame('www.a-domain.tld', $hostProvider->getHost());
     }
 
     public function testGetHost()
