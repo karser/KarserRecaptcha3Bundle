@@ -344,6 +344,45 @@ services:
 If you have a dependency on `symfony/http-client` in your application then it will be automatically wired
 to use via `RequestMethod/SymfonyHttpClient`.
 
+### How to integrate with Symfony UX Live Components
+If you use [Symfony UX Live Components](https://symfony.com/bundles/ux-live-component/current/index.html) to render your form,
+you can add `data_model` option with a value of your choice to send the captcha value to the component
+```php
+$builder->add('captcha', Recaptcha3Type::class, [
+     'data_model' => 'captcha',
+     ...
+]);
+```
+
+Then in your component you have to add a writable `LiveProp` and set the form value accordingly
+```php
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
+use Symfony\UX\LiveComponent\ComponentWithFormTrait;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+
+#[AsLiveComponent]
+class FormComponent extends AbstractController
+{
+    use ComponentToolsTrait;
+    use ComponentWithFormTrait;
+    use DefaultActionTrait;
+
+    #[LiveProp(writable: true)]
+    public string|null $captcha = null;
+
+    #[LiveAction]
+    public function save(): void {
+        ...
+        $this->formValues['captcha'] = $this->captcha;
+        $this->submitForm();
+        $this->dispatchBrowserEvent('recaptcha:reload');
+        ...
+    }
+}
+```
+
+You then have to use the LiveAction `save` to submit the form.
+
 Troubleshooting checklist
 -------------------------
 
