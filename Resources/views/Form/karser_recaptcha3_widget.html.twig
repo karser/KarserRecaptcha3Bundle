@@ -13,12 +13,12 @@
 
                 grecaptcha.execute('{{ form.vars.site_key }}', {action: '{{ form.vars.action_name }}'}).then(function(token) {
                     recaptchaField.value = token;
-                    {% if form.vars.attr.data_model is defined %}
+                    {% if form.vars.attr['data-model'] is defined and form.vars.attr['data-model'] is not null %}
                         recaptchaField.dispatchEvent(new Event('change', {bubbles: true}))
                     {% endif %}
                 });
 
-                {% if form.vars.attr.data_model is defined %}
+                {% if form.vars.attr['data-model'] is defined and form.vars.attr['data-model'] is not null %}
                     window.addEventListener('recaptcha:reload', window.recaptchaCallback_{{ validJsId }})
                 {% endif %}
 
