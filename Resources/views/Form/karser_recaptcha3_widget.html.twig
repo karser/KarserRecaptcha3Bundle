@@ -6,9 +6,22 @@
         {% set validJsId = id | replace({'-':'_'})  %}
         <script type="text/javascript" {% if form.vars.script_nonce_csp is defined %}nonce="{{ form.vars.script_nonce_csp }}"{% endif %}>
             var recaptchaCallback_{{ validJsId }} = function() {
+                const recaptchaField = document.getElementById('{{ id }}');
+                if (! recaptchaField) {
+                    return;
+                }
+
                 grecaptcha.execute('{{ form.vars.site_key }}', {action: '{{ form.vars.action_name }}'}).then(function(token) {
-                    document.getElementById('{{ id }}').value = token;
+                    recaptchaField.value = token;
+                    {% if form.vars.attr.data_model is defined %}
+                        recaptchaField.dispatchEvent(new Event('change', {bubbles: true}))
+                    {% endif %}
                 });
+
+                {% if form.vars.attr.data_model is defined %}
+                    window.addEventListener('recaptcha:reload', window.recaptchaCallback_{{ validJsId }})
+                {% endif %}
+
                 setTimeout(recaptchaCallback_{{ validJsId }}, 100000);
             };
         </script>
