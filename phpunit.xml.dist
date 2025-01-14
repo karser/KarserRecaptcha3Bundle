@@ -4,13 +4,15 @@
         colors="true"
         bootstrap="vendor/autoload.php"
         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+        displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnPhpunitDeprecations="true"
 >
     <testsuites>
         <testsuite name="KarserRecaptcha3Bundle Test Suite">
             <directory>./Tests</directory>
         </testsuite>
     </testsuites>
-    <coverage>
+    <source>
         <include>
             <directory suffix=".php">.</directory>
         </include>
@@ -19,5 +21,7 @@
             <directory>Tests</directory>
             <directory>vendor</directory>
         </exclude>
+    </source>
+    <coverage>
     </coverage>
 </phpunit>
