@@ -35,7 +35,7 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.4",
     "phpfui/recaptcha": "^2.0",
     "symfony/form": "^3.4|^4.0|^5.0|^6.0|^7.0",
     "symfony/framework-bundle": "^3.4.26|^4.2.7|^5.0|^6.0|^7.0",
