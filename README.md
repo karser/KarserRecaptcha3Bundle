@@ -22,10 +22,7 @@ With [composer](https://getcomposer.org), require:
 
 `composer require karser/karser-recaptcha3-bundle`
 
-You can quickly configure this bundle by using symfony/flex:
-- answer **no** for `google/recaptcha` 
-- answer **yes** for `karser/karser-recaptcha3-bundle`
-![image](https://user-images.githubusercontent.com/1675033/73133604-d5a39a00-4033-11ea-9ef1-0fed12a8763b.png)
+You can quickly configure this bundle by using symfony/flex.
 
 Configuration without symfony/flex: 
 --------------------
@@ -265,7 +262,7 @@ App\Services\YourService:
 ```php
 #App/Services/YourService.php
 
-use ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
 
 class YourService {
     private $reCaptcha;

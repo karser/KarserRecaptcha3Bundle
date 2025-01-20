@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Karser\Recaptcha3Bundle\Services;
 
-use ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
 
 final class HostProvider implements HostProviderInterface
 {

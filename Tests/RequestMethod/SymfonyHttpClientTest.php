@@ -6,7 +6,7 @@ namespace RequestMethod;
 
 use Karser\Recaptcha3Bundle\RequestMethod\SymfonyHttpClient;
 use PHPUnit\Framework\TestCase;
-use ReCaptcha\RequestParameters;
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestParameters;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
