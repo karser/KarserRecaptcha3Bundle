@@ -138,7 +138,7 @@ class ReCaptcha
      */
     public function __construct(?string $secret, ?RequestMethod $requestMethod = null)
     {
-        if (null === $secret) {
+        if (!is_string($secret)) {
             throw new \RuntimeException('The provided secret must be a string');
         }
         if ('' === $secret) {

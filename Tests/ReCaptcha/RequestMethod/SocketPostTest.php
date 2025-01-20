@@ -134,7 +134,7 @@ class SocketPostTest extends TestCase
 
         $socket->expects(self::once())
             ->method('fsockopen')
-            ->willReturn(false);
+            ->willReturn(null);
         $ps = new SocketPost($socket);
         $response = $ps->submit(new RequestParameters("secret", "response", "remoteip", "version"));
         self::assertEquals('{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}', $response);

@@ -136,6 +136,10 @@ class PostTest extends TestCase
     }
 }
 
+namespace Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod;
+
+use Karser\Recaptcha3Bundle\Tests\ReCaptcha\RequestMethod\PostTest;
+
 function file_get_contents()
 {
     if (PostTest::$assert) {

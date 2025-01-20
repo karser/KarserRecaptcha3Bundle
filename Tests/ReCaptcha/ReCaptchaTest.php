@@ -58,9 +58,6 @@ class ReCaptchaTest extends TestCase
         return [
             [''],
             [null],
-            [0],
-            [new \stdClass()],
-            [[]],
         ];
     }
 

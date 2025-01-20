@@ -91,7 +91,7 @@ class Response
     {
         $responseData = json_decode($json, true);
 
-        if (false === $responseData) {
+        if (null === $responseData) {
             return new Response(false, array(ReCaptcha::E_INVALID_JSON));
         }
 
