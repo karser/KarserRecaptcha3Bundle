@@ -132,18 +132,17 @@ class ReCaptcha
     /**
      * Create a configured instance to use the reCAPTCHA service.
      *
-     * @param string $secret The shared key between your site and reCAPTCHA.
+     * @param ?string $secret The shared key between your site and reCAPTCHA.
      * @param RequestMethod $requestMethod method used to send the request. Defaults to POST.
      * @throws \RuntimeException if $secret is invalid
      */
-    public function __construct($secret, RequestMethod $requestMethod = null)
+    public function __construct(?string $secret, ?RequestMethod $requestMethod = null)
     {
-        if (empty($secret)) {
-            throw new \RuntimeException('No secret provided');
-        }
-
-        if (!is_string($secret)) {
+        if (null === $secret) {
             throw new \RuntimeException('The provided secret must be a string');
+        }
+        if ('' === $secret) {
+            throw new \RuntimeException('No secret provided');
         }
 
         $this->secret = $secret;
@@ -158,10 +157,10 @@ class ReCaptcha
      * @param string $remoteIp The end user's IP address.
      * @return Response Response from the service.
      */
-    public function verify($response, $remoteIp = null)
+    public function verify(string $response, ?string $remoteIp = null)
     {
         // Discard empty solution submissions
-        if (empty($response)) {
+        if ('' === $response) {
             $recaptchaResponse = new Response(false, array(self::E_MISSING_INPUT_RESPONSE));
             return $recaptchaResponse;
         }
@@ -195,7 +194,7 @@ class ReCaptcha
             }
         }
 
-        if (empty($validationErrors)) {
+        if ([] === $validationErrors) {
             return $initialResponse;
         }
 

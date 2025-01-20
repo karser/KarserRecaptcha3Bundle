@@ -32,9 +32,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod;
+namespace Karser\Recaptcha3Bundle\Tests\ReCaptcha\RequestMethod;
 
 use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod\Post;
 use Karser\Recaptcha3Bundle\ReCaptcha\RequestParameters;
 use PHPUnit\Framework\TestCase;
 
@@ -59,7 +60,7 @@ class PostTest extends TestCase
         $req = new Post();
         self::$assert = array($this, 'httpContextOptionsCallback');
         $req->submit($this->parameters);
-        $this->assertEquals(1, $this->runcount, 'The assertion was ran');
+        static::assertEquals(1, $this->runcount, 'The assertion was ran');
     }
 
     public function testSSLContextOptions()
@@ -67,7 +68,7 @@ class PostTest extends TestCase
         $req = new Post();
         self::$assert = array($this, 'sslContextOptionsCallback');
         $req->submit($this->parameters);
-        $this->assertEquals(1, $this->runcount, 'The assertion was ran');
+        static::assertEquals(1, $this->runcount, 'The assertion was ran');
     }
 
     public function testOverrideVerifyUrl()
@@ -75,7 +76,7 @@ class PostTest extends TestCase
         $req = new Post('https://over.ride/some/path');
         self::$assert = array($this, 'overrideUrlOptions');
         $req->submit($this->parameters);
-        $this->assertEquals(1, $this->runcount, 'The assertion was ran');
+        static::assertEquals(1, $this->runcount, 'The assertion was ran');
     }
 
     public function testConnectionFailureReturnsError()
@@ -83,17 +84,18 @@ class PostTest extends TestCase
         $req = new Post('https://bad.connection/');
         self::$assert = array($this, 'connectionFailureResponse');
         $response = $req->submit($this->parameters);
-        $this->assertEquals('{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}', $response);
+        static::assertEquals('{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}', $response);
     }
 
     public function connectionFailureResponse()
     {
         return false;
     }
+
     public function overrideUrlOptions(array $args)
     {
         $this->runcount++;
-        $this->assertEquals('https://over.ride/some/path', $args[0]);
+        static::assertEquals('https://over.ride/some/path', $args[0]);
     }
 
     public function httpContextOptionsCallback(array $args)
@@ -102,16 +104,16 @@ class PostTest extends TestCase
         $this->assertCommonOptions($args);
 
         $options = stream_context_get_options($args[2]);
-        $this->assertArrayHasKey('http', $options);
+        static::assertArrayHasKey('http', $options);
 
-        $this->assertArrayHasKey('method', $options['http']);
-        $this->assertEquals('POST', $options['http']['method']);
+        static::assertArrayHasKey('method', $options['http']);
+        static::assertEquals('POST', $options['http']['method']);
 
-        $this->assertArrayHasKey('content', $options['http']);
-        $this->assertEquals($this->parameters->toQueryString(), $options['http']['content']);
+        static::assertArrayHasKey('content', $options['http']);
+        static::assertEquals($this->parameters->toQueryString(), $options['http']['content']);
 
-        $this->assertArrayHasKey('header', $options['http']);
-        $this->assertStringContainsStringIgnoringCase('Content-type: application/x-www-form-urlencoded', $options['http']['header']);
+        static::assertArrayHasKey('header', $options['http']);
+        static::assertStringContainsStringIgnoringCase('Content-type: application/x-www-form-urlencoded', $options['http']['header']);
     }
 
     public function sslContextOptionsCallback(array $args)
@@ -120,17 +122,17 @@ class PostTest extends TestCase
         $this->assertCommonOptions($args);
 
         $options = stream_context_get_options($args[2]);
-        $this->assertArrayHasKey('http', $options);
-        $this->assertArrayHasKey('verify_peer', $options['http']);
-        $this->assertTrue($options['http']['verify_peer']);
+        static::assertArrayHasKey('http', $options);
+        static::assertArrayHasKey('verify_peer', $options['http']);
+        static::assertTrue($options['http']['verify_peer']);
     }
 
     protected function assertCommonOptions(array $args)
     {
-        $this->assertCount(3, $args);
-        $this->assertStringStartsWith('https://www.google.com/', $args[0]);
-        $this->assertFalse($args[1]);
-        $this->assertTrue(is_resource($args[2]), 'The context options should be a resource');
+        static::assertCount(3, $args);
+        static::assertStringStartsWith('https://www.google.com/', $args[0]);
+        static::assertFalse($args[1]);
+        static::assertTrue(is_resource($args[2]), 'The context options should be a resource');
     }
 }
 

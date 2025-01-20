@@ -41,29 +41,30 @@ class Curl
 {
     /**
      * @see http://php.net/curl_init
-     * @param string $url
-     * @return resource cURL handle
+     * @param string|null $url
+     * @phpstan-return (\CurlHandle|resource|false)
+     * @psalm-return (\CurlHandle|resource|false)
      */
-    public function init($url = null)
+    public function init(?string $url = null)
     {
         return curl_init($url);
     }
 
     /**
      * @see http://php.net/curl_setopt_array
-     * @param resource $ch
-     * @param array $options
+     * @param \CurlHandle|resource $ch
+     * @param array<int, mixed> $options
      * @return bool
      */
-    public function setoptArray($ch, array $options)
+    public function setoptArray($ch, array $options): bool
     {
         return curl_setopt_array($ch, $options);
     }
 
     /**
      * @see http://php.net/curl_exec
-     * @param resource $ch
-     * @return mixed
+     * @param \CurlHandle|resource $ch
+     * @return string|bool
      */
     public function exec($ch)
     {
@@ -72,9 +73,10 @@ class Curl
 
     /**
      * @see http://php.net/curl_close
-     * @param resource $ch
+     * @param \CurlHandle|resource $ch
+     * @return void
      */
-    public function close($ch)
+    public function close($ch): void
     {
         curl_close($ch);
     }

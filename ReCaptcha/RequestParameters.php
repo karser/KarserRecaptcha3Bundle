@@ -53,13 +53,13 @@ class RequestParameters
 
     /**
      * Remote user's IP address.
-     * @var string
+     * @var string|null
      */
     private $remoteIp;
 
     /**
      * Client version.
-     * @var string
+     * @var string|null
      */
     private $version;
 
@@ -68,10 +68,10 @@ class RequestParameters
      *
      * @param string $secret Site secret.
      * @param string $response Value from g-captcha-response form field.
-     * @param string $remoteIp User's IP address.
-     * @param string $version Version of this client library.
+     * @param string|null $remoteIp User's IP address.
+     * @param string|null $version Version of this client library.
      */
-    public function __construct($secret, $response, $remoteIp = null, $version = null)
+    public function __construct(string $secret, string $response, ?string $remoteIp = null, ?string $version = null)
     {
         $this->secret = $secret;
         $this->response = $response;

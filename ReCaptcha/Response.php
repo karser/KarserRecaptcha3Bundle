@@ -85,13 +85,13 @@ class Response
      * Build the response from the expected JSON returned by the service.
      *
      * @param string $json
-     * @return \ReCaptcha\Response
+     * @return Response
      */
     public static function fromJson($json)
     {
         $responseData = json_decode($json, true);
 
-        if (!$responseData) {
+        if (false === $responseData) {
             return new Response(false, array(ReCaptcha::E_INVALID_JSON));
         }
 
@@ -123,7 +123,8 @@ class Response
      * @param string $action
      * @param array $errorCodes
      */
-    public function __construct($success, array $errorCodes = array(), $hostname = '', $challengeTs = '', $apkPackageName = '', $score = null, $action = '')
+    public function __construct(bool $success, array $errorCodes = array(), string $hostname = '', string $challengeTs = '',
+                                string $apkPackageName = '', ?float $score = null, ?string $action = '')
     {
         $this->success = $success;
         $this->hostname = $hostname;

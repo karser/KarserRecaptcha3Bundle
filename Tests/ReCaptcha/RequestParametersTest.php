@@ -56,7 +56,7 @@ class RequestParametersTest extends Testcase
     public function testToArray($secret, $response, $remoteIp, $version, $expectedArray, $expectedQuery)
     {
         $params = new RequestParameters($secret, $response, $remoteIp, $version);
-        $this->assertEquals($params->toArray(), $expectedArray);
+        self::assertEquals($params->toArray(), $expectedArray);
     }
 
     /**
@@ -65,6 +65,6 @@ class RequestParametersTest extends Testcase
     public function testToQueryString($secret, $response, $remoteIp, $version, $expectedArray, $expectedQuery)
     {
         $params = new RequestParameters($secret, $response, $remoteIp, $version);
-        $this->assertEquals($params->toQueryString(), $expectedQuery);
+        self::assertEquals($params->toQueryString(), $expectedQuery);
     }
 }

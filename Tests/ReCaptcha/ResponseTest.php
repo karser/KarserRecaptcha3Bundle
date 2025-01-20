@@ -44,13 +44,13 @@ class ResponseTest extends TestCase
     public function testFromJson($json, $success, $errorCodes, $hostname, $challengeTs, $apkPackageName, $score, $action)
     {
         $response = Response::fromJson($json);
-        $this->assertEquals($success, $response->isSuccess());
-        $this->assertEquals($errorCodes, $response->getErrorCodes());
-        $this->assertEquals($hostname, $response->getHostname());
-        $this->assertEquals($challengeTs, $response->getChallengeTs());
-        $this->assertEquals($apkPackageName, $response->getApkPackageName());
-        $this->assertEquals($score, $response->getScore());
-        $this->assertEquals($action, $response->getAction());
+        self::assertEquals($success, $response->isSuccess());
+        self::assertEquals($errorCodes, $response->getErrorCodes());
+        self::assertEquals($hostname, $response->getHostname());
+        self::assertEquals($challengeTs, $response->getChallengeTs());
+        self::assertEquals($apkPackageName, $response->getApkPackageName());
+        self::assertEquals($score, $response->getScore());
+        self::assertEquals($action, $response->getAction());
     }
 
     public static function provideJson()
@@ -102,20 +102,20 @@ class ResponseTest extends TestCase
     public function testIsSuccess()
     {
         $response = new Response(true);
-        $this->assertTrue($response->isSuccess());
+        self::assertTrue($response->isSuccess());
 
         $response = new Response(false);
-        $this->assertFalse($response->isSuccess());
+        self::assertFalse($response->isSuccess());
 
         $response = new Response(true, array(), 'example.com');
-        $this->assertEquals('example.com', $response->getHostName());
+        self::assertEquals('example.com', $response->getHostname());
     }
 
     public function testGetErrorCodes()
     {
         $errorCodes = array('test');
         $response = new Response(true, $errorCodes);
-        $this->assertEquals($errorCodes, $response->getErrorCodes());
+        self::assertEquals($errorCodes, $response->getErrorCodes());
     }
 
     public function testGetHostname()
@@ -123,7 +123,7 @@ class ResponseTest extends TestCase
         $hostname = 'google.com';
         $errorCodes = array();
         $response = new Response(true, $errorCodes, $hostname);
-        $this->assertEquals($hostname, $response->getHostname());
+        self::assertEquals($hostname, $response->getHostname());
     }
 
     public function testGetChallengeTs()
@@ -131,33 +131,33 @@ class ResponseTest extends TestCase
         $timestamp = 'timestamp';
         $errorCodes = array();
         $response = new Response(true, array(), 'hostname', $timestamp);
-        $this->assertEquals($timestamp, $response->getChallengeTs());
+        self::assertEquals($timestamp, $response->getChallengeTs());
     }
 
     public function TestGetApkPackageName()
     {
         $apk = 'apk';
         $response = new Response(true, array(), 'hostname', 'timestamp', 'apk');
-        $this->assertEquals($apk, $response->getApkPackageName());
+        self::assertEquals($apk, $response->getApkPackageName());
     }
 
     public function testGetScore()
     {
         $score = 0.5;
         $response = new Response(true, array(), 'hostname', 'timestamp', 'apk', $score);
-        $this->assertEquals($score, $response->getScore());
+        self::assertEquals($score, $response->getScore());
     }
 
     public function testGetAction()
     {
         $action = 'homepage';
-        $response = new Response(true, array(), 'hostname', 'timestamp', 'apk', '0.5', 'homepage');
-        $this->assertEquals($action, $response->getAction());
+        $response = new Response(true, array(), 'hostname', 'timestamp', 'apk', 0.5, 'homepage');
+        self::assertEquals($action, $response->getAction());
     }
 
     public function testToArray()
     {
-        $response = new Response(true, array(), 'hostname', 'timestamp', 'apk', '0.5', 'homepage');
+        $response = new Response(true, array(), 'hostname', 'timestamp', 'apk', 0.5, 'homepage');
         $expected = array(
             'success' => true,
             'error-codes' => array(),
@@ -167,6 +167,6 @@ class ResponseTest extends TestCase
             'score' => 0.5,
             'action' => 'homepage',
         );
-        $this->assertEquals($expected, $response->toArray());
+        self::assertEquals($expected, $response->toArray());
     }
 }

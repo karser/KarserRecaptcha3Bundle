@@ -32,89 +32,104 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod;
+namespace Karser\Recaptcha3Bundle\Tests\ReCaptcha\RequestMethod;
 
 use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod\Curl;
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod\CurlPost;
 use Karser\Recaptcha3Bundle\ReCaptcha\RequestParameters;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Karser\Recaptcha3Bundle\Tests\ReCaptcha\RequestMethod\CurlPost
+ */
 class CurlPostTest extends TestCase
 {
     protected function setUp(): void
     {
         if (!extension_loaded('curl')) {
-            $this->markTestSkipped(
-                'The cURL extension is not available.'
-            );
+            self::markTestSkipped('The cURL extension is not available.');
         }
     }
 
-    public function testSubmit()
+    public function testSubmit(): void
     {
-        $curl = $this->getMockBuilder(\ReCaptcha\RequestMethod\Curl::class)
+        $curl = $this->getMockBuilder(Curl::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $curl->expects($this->once())
-                ->method('init')
-                ->willReturn(new \stdClass());
-        $curl->expects($this->once())
-                ->method('setoptArray')
-                ->willReturn(true);
-        $curl->expects($this->once())
-                ->method('exec')
-                ->willReturn('RESPONSEBODY');
-        $curl->expects($this->once())
-                ->method('close');
+
+        $curl->expects(self::once())
+            ->method('init')
+            ->willReturn(new \stdClass());
+
+        $curl->expects(self::once())
+            ->method('setoptArray')
+            ->willReturn(true);
+
+        $curl->expects(self::once())
+            ->method('exec')
+            ->willReturn('RESPONSEBODY');
+
+        $curl->expects(self::once())
+            ->method('close');
 
         $pc = new CurlPost($curl);
         $response = $pc->submit(new RequestParameters("secret", "response"));
-        $this->assertEquals('RESPONSEBODY', $response);
+        self::assertEquals('RESPONSEBODY', $response);
     }
 
-    public function testOverrideSiteVerifyUrl()
+    public function testOverrideSiteVerifyUrl(): void
     {
         $url = 'OVERRIDE';
 
-        $curl = $this->getMockBuilder(\ReCaptcha\RequestMethod\Curl::class)
+        $curl = $this->getMockBuilder(Curl::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $curl->expects($this->once())
-                ->method('init')
-                ->with($url)
-                ->willReturn(new \stdClass());
-        $curl->expects($this->once())
-                ->method('setoptArray')
-                ->willReturn(true);
-        $curl->expects($this->once())
-                ->method('exec')
-                ->willReturn('RESPONSEBODY');
-        $curl->expects($this->once())
-                ->method('close');
+
+        $curl->expects(self::once())
+            ->method('init')
+            ->with($url)
+            ->willReturn(new \stdClass());
+
+        $curl->expects(self::once())
+            ->method('setoptArray')
+            ->willReturn(true);
+
+        $curl->expects(self::once())
+            ->method('exec')
+            ->willReturn('RESPONSEBODY');
+
+        $curl->expects(self::once())
+            ->method('close');
 
         $pc = new CurlPost($curl, $url);
         $response = $pc->submit(new RequestParameters("secret", "response"));
-        $this->assertEquals('RESPONSEBODY', $response);
+        self::assertEquals('RESPONSEBODY', $response);
     }
 
-    public function testConnectionFailureReturnsError()
+    public function testConnectionFailureReturnsError(): void
     {
-        $curl = $this->getMockBuilder(\ReCaptcha\RequestMethod\Curl::class)
+        $curl = $this->getMockBuilder(Curl::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $curl->expects($this->once())
-                ->method('init')
-                ->willReturn(new \stdClass());
-        $curl->expects($this->once())
-                ->method('setoptArray')
-                ->willReturn(true);
-        $curl->expects($this->once())
-                ->method('exec')
-                ->willReturn(false);
-        $curl->expects($this->once())
-                ->method('close');
+
+        $curl->expects(self::once())
+            ->method('init')
+            ->willReturn(new \stdClass());
+
+        $curl->expects(self::once())
+            ->method('setoptArray')
+            ->willReturn(true);
+
+        $curl->expects(self::once())
+            ->method('exec')
+            ->willReturn(false);
+
+        $curl->expects(self::once())
+            ->method('close');
 
         $pc = new CurlPost($curl);
         $response = $pc->submit(new RequestParameters("secret", "response"));
-        $this->assertEquals('{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}', $response);
+        self::assertEquals('{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}', $response);
     }
 }

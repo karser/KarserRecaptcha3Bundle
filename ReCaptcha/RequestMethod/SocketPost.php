@@ -56,10 +56,10 @@ class SocketPost implements RequestMethod
     /**
      * Only needed if you want to override the defaults
      *
-     * @param \ReCaptcha\RequestMethod\Socket $socket optional socket, injectable for testing
-     * @param string $siteVerifyUrl URL for reCAPTCHA siteverify API
+     * @param ?Socket $socket optional socket, injectable for testing
+     * @param ?string $siteVerifyUrl URL for reCAPTCHA siteverify API
      */
-    public function __construct(Socket $socket = null, $siteVerifyUrl = null)
+    public function __construct(?Socket $socket = null, ?string $siteVerifyUrl = null)
     {
         $this->socket = (is_null($socket)) ? new Socket() : $socket;
         $this->siteVerifyUrl = (is_null($siteVerifyUrl)) ? ReCaptcha::SITE_VERIFY_URL : $siteVerifyUrl;
@@ -77,7 +77,7 @@ class SocketPost implements RequestMethod
         $errstr = '';
         $urlParsed = parse_url($this->siteVerifyUrl);
 
-        if (false === $this->socket->fsockopen('ssl://' . $urlParsed['host'], 443, $errno, $errstr, 30)) {
+        if (null === $this->socket->fsockopen('ssl://' . $urlParsed['host'], 443, $errno, $errstr, 30)) {
             return '{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}';
         }
 

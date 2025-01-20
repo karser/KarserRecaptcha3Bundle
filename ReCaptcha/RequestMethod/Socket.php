@@ -51,7 +51,7 @@ class Socket
      * @param int $errno
      * @param string $errstr
      * @param float $timeout
-     * @return resource
+     * @return resource|null
      */
     public function fsockopen($hostname, $port = -1, &$errno = 0, &$errstr = '', $timeout = null)
     {
@@ -60,7 +60,7 @@ class Socket
         if ($this->handle != false && $errno === 0 && $errstr === '') {
             return $this->handle;
         }
-        return false;
+        return null;
     }
 
     /**
