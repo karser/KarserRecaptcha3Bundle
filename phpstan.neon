@@ -5,18 +5,16 @@ includes:
 parameters:
     level: 5
     reportUnmatchedIgnoredErrors: false
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     inferPrivatePropertyTypeFromConstructor: true
     paths:
         - %currentWorkingDirectory%
     ignoreErrors:
+        -
+            identifier: missingType.generics
         - '#Class Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder constructor invoked with 0 parameters, 1-3 required#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder::root\(\)#'
         - '#Call to function method_exists\(\) with .*?TreeBuilder.*? and .*?getRootNode.*? will always evaluate to true#'
-        - '#Comparison operation "<" between 70006 and 50200 is always false#'
-        - '#Comparison operation "<" between 70007 and 50200 is always false#'
-        - '#Comparison operation ">=" between 7 and 6 is always true#'
+        - '#Comparison operation ".*?" between \d+ and \d+ is always (true|false)#'
         - '#Else branch is unreachable because ternary operator condition is always true#'
 
     excludePaths:

@@ -3,8 +3,8 @@
 namespace Karser\Recaptcha3Bundle\Validator\Constraints;
 
 use Karser\Recaptcha3Bundle\Services\IpResolverInterface;
-use ReCaptcha\ReCaptcha;
-use ReCaptcha\Response;
+use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\Response;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
