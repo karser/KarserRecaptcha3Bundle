@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * This is a PHP library that handles calling reCAPTCHA.
  *
