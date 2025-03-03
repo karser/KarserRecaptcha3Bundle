@@ -33,8 +33,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Karser\Recaptcha3Bundle\ReCaptcha;
+namespace Karser\Recaptcha3Bundle\Tests\ReCaptcha;
 
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestParameters;
 use PHPUnit\Framework\TestCase;
 
 class RequestParametersTest extends Testcase
