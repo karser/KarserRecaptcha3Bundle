@@ -2,7 +2,7 @@
 
 namespace Karser\Recaptcha3Bundle\Tests\fixtures;
 
-use ReCaptcha\Response;
+use Karser\Recaptcha3Bundle\ReCaptcha\Response;
 
 class RecaptchaMock
 {

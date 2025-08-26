@@ -9,11 +9,16 @@ KarserRecaptcha3Bundle
 reCAPTCHA v3 returns a score for each request without user friction. 
 The score is based on interactions with your site (1.0 is very likely a good interaction,
 0.0 is very likely a bot) and enables you to
-take an appropriate action for your site. Register reCAPTCHA v3 keys
-[here](https://www.google.com/recaptcha/admin/create).
+take an appropriate action for your site.
 
 ![image](https://user-images.githubusercontent.com/1675033/58698825-bbca8e00-83a4-11e9-9627-e3a2b1a6c074.png)
 
+Getting reCAPTCHA v3 key and secret
+--------------------------------
+
+Register reCAPTCHA v3 keys [here](https://www.google.com/recaptcha/admin/create).
+
+![Image](https://github.com/user-attachments/assets/fa5ca3cd-e87a-485c-aa25-5b4800da5bde)
 
 Installation
 ------------
@@ -22,10 +27,7 @@ With [composer](https://getcomposer.org), require:
 
 `composer require karser/karser-recaptcha3-bundle`
 
-You can quickly configure this bundle by using symfony/flex:
-- answer **no** for `google/recaptcha` 
-- answer **yes** for `karser/karser-recaptcha3-bundle`
-![image](https://user-images.githubusercontent.com/1675033/73133604-d5a39a00-4033-11ea-9ef1-0fed12a8763b.png)
+You can quickly configure this bundle by using symfony/flex.
 
 Configuration without symfony/flex: 
 --------------------
@@ -265,7 +267,7 @@ App\Services\YourService:
 ```php
 #App/Services/YourService.php
 
-use ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
 
 class YourService {
     private $reCaptcha;

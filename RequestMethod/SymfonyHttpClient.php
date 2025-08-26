@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Karser\Recaptcha3Bundle\RequestMethod;
 
-use ReCaptcha\ReCaptcha;
-use ReCaptcha\RequestMethod;
-use ReCaptcha\RequestParameters;
+use Karser\Recaptcha3Bundle\ReCaptcha\ReCaptcha;
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod;
+use Karser\Recaptcha3Bundle\ReCaptcha\RequestParameters;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
