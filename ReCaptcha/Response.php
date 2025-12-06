@@ -102,7 +102,7 @@ class Response
         $score = isset($responseData['score']) ? floatval($responseData['score']) : null;
         $action = isset($responseData['action']) ? $responseData['action'] : '';
 
-        if (isset($responseData['success']) && $responseData['success'] == true) {
+        if (isset($responseData['success']) && $responseData['success'] === true) {
             return new Response(true, array(), $hostname, $challengeTs, $apkPackageName, $score, $action);
         }
 

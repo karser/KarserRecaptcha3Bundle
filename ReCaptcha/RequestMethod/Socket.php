@@ -58,7 +58,7 @@ class Socket
     {
         $this->handle = fsockopen($hostname, $port, $errno, $errstr, (is_null($timeout) ? ini_get("default_socket_timeout") : $timeout));
 
-        if ($this->handle != false && $errno === 0 && $errstr === '') {
+        if ($this->handle !== false && $errno === 0 && $errstr === '') {
             return $this->handle;
         }
         return null;
