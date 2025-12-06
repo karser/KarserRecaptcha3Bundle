@@ -62,3 +62,27 @@ If you are upgrading from an earlier version:
 ### Testing
 - All existing tests pass with Symfony 6.4, 7.x, and 8.0
 - PHPStan analysis passes without errors
+
+### Known Issues
+
+#### PHPUnit Deprecations
+There are 8 PHPUnit deprecation warnings related to DocBlock annotations (e.g., `@dataProvider`). These are not critical and do not affect functionality:
+
+- PHPUnit 11 recommends using PHP 8 Attributes instead of DocBlock annotations
+- Since this bundle still supports PHP 7.4, we cannot use Attributes yet
+- These warnings will only become errors in PHPUnit 12
+- The tests run successfully and all assertions pass
+
+If you need to eliminate these warnings, you can either:
+1. Wait for a future version that drops PHP 7.4 support
+2. Suppress PHPUnit deprecations in your phpunit.xml:
+   ```xml
+   <phpunit displayDetailsOnTestsThatTriggerDeprecations="true"
+            displayDetailsOnTestsThatTriggerWarnings="true"
+            displayDetailsOnTestsThatTriggerNotices="true"
+            displayDetailsOnTestsThatTriggerErrors="true"
+            beStrictAboutOutputDuringTests="true"
+            failOnWarning="false"
+            failOnRisky="false"
+            failOnDeprecation="false">
+   ```
