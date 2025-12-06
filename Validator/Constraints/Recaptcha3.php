@@ -39,18 +39,20 @@ final class Recaptcha3 extends Constraint
             // Extract named parameters from options array for backward compatibility
             $message = $message ?? $options['message'] ?? null;
             $messageMissingValue = $messageMissingValue ?? $options['messageMissingValue'] ?? null;
-        } elseif (is_string($options)) {
-            $options = ['value' => $options];
+            $groups = $groups ?? $options['groups'] ?? null;
+            $payload = $payload ?? $options['payload'] ?? null;
         }
 
-        parent::__construct($options ?? [], $groups, $payload);
-
-        // Only override if explicitly provided
+        // Set properties directly in constructor (Symfony 7.4+ requirement)
         if ($message !== null) {
             $this->message = $message;
         }
         if ($messageMissingValue !== null) {
             $this->messageMissingValue = $messageMissingValue;
         }
+
+        // Pass null as first argument to avoid legacy option processing
+        // This prevents the deprecation warning in Symfony 7.4+
+        parent::__construct(null, $groups, $payload);
     }
 }
