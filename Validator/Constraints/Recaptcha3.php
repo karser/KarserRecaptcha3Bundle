@@ -19,14 +19,38 @@ final class Recaptcha3 extends Constraint
 
     protected static $errorNames = self::ERROR_NAMES;
 
-    public $message = 'Your computer or network may be sending automated queries';
-    public $messageMissingValue = 'The captcha value is missing';
+    public string $message = 'Your computer or network may be sending automated queries';
+    public string $messageMissingValue = 'The captcha value is missing';
 
-    public function __construct(?array $options = null, ?string $message = null, ?string $messageMissingValue = null, ?array $groups = null, $payload = null)
-    {
+    /**
+     * @param array<string, mixed>|string|null $options
+     * @param string[]|null $groups
+     * @param mixed $payload
+     */
+    public function __construct(
+        array|string|null $options = null,
+        ?string $message = null,
+        ?string $messageMissingValue = null,
+        ?array $groups = null,
+        mixed $payload = null
+    ) {
+        // Handle both old array-based and new named-parameter style
+        if (is_array($options)) {
+            // Extract named parameters from options array for backward compatibility
+            $message = $message ?? $options['message'] ?? null;
+            $messageMissingValue = $messageMissingValue ?? $options['messageMissingValue'] ?? null;
+        } elseif (is_string($options)) {
+            $options = ['value' => $options];
+        }
+
         parent::__construct($options ?? [], $groups, $payload);
 
-        $this->message = $message ?? $this->message;
-        $this->messageMissingValue = $messageMissingValue ?? $this->messageMissingValue;
+        // Only override if explicitly provided
+        if ($message !== null) {
+            $this->message = $message;
+        }
+        if ($messageMissingValue !== null) {
+            $this->messageMissingValue = $messageMissingValue;
+        }
     }
 }

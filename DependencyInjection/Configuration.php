@@ -10,14 +10,9 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        if (method_exists(TreeBuilder::class, 'getRootNode')) {
-            $treeBuilder = new TreeBuilder('karser_recaptcha3');
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC layer for symfony/config 4.1 and older
-            $treeBuilder = new TreeBuilder();
-            $rootNode = $treeBuilder->root('karser_recaptcha3', 'array');
-        }
+        $treeBuilder = new TreeBuilder('karser_recaptcha3');
+        $rootNode = $treeBuilder->getRootNode();
+
         $rootNode
             ->children()
                 ->scalarNode('site_key')->isRequired()->end()

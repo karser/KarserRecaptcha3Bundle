@@ -11,7 +11,7 @@ class Recaptcha3TypeTest extends TypeTestCase
     const SITEKEY = '<sitekey>';
     const HOST = '<host>';
 
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         $type = new Recaptcha3Type(self::SITEKEY, self::HOST, true);
 

@@ -34,7 +34,7 @@ class TestKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load($this->configurationFilename);
         $loader->load(self::MAJOR_VERSION >= 6 ? __DIR__.'/fixtures/config/symfony6.yml' : __DIR__.'/fixtures/config/symfony4.yml');

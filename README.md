@@ -27,24 +27,34 @@ With [composer](https://getcomposer.org), require:
 
 `composer require karser/karser-recaptcha3-bundle`
 
+### Version compatibility
+
+| Bundle Version | Symfony Version | PHP Version |
+|----------------|-----------------|-------------|
+| 0.3.x          | 6.4, 7.x, 8.x   | ≥7.4        |
+| 0.2.x          | 3.4, 4.x, 5.x, 6.x, 7.x | ≥7.4 |
+| 0.1.x          | 3.4, 4.x, 5.x   | ≥7.1        |
+
 You can quickly configure this bundle by using symfony/flex.
 
-Configuration without symfony/flex: 
+Configuration without symfony/flex:
 --------------------
 
 ### 1. Register the bundle
 
-**Symfony 4/5/6/7 Version :**   
+**Symfony 6.4/7.x/8.x Version:**
 Register bundle into `config/bundles.php`:
-```php 
+```php
 return [
     //...
     Karser\Recaptcha3Bundle\KarserRecaptcha3Bundle::class => ['all' => true],
 ];
 ```
 
-**Symfony 3 Version:**  
-Register bundle into `app/AppKernel.php`:
+**Older Symfony Versions (3.x/4.x/5.x):**
+Please use bundle version 0.2.x for these Symfony versions.
+
+For Symfony 3, register bundle into `app/AppKernel.php`:
 
 ``` php
 public function registerBundles()
