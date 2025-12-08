@@ -42,7 +42,7 @@ use Karser\Recaptcha3Bundle\ReCaptcha\RequestParameters;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Karser\Recaptcha3Bundle\Tests\ReCaptcha\RequestMethod\CurlPost
+ * @covers \Karser\Recaptcha3Bundle\ReCaptcha\RequestMethod\CurlPost
  */
 class CurlPostTest extends TestCase
 {
