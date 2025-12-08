@@ -31,7 +31,7 @@ With [composer](https://getcomposer.org), require:
 
 | Bundle Version | Symfony Version | PHP Version |
 |----------------|-----------------|-------------|
-| 0.3.x          | 6.4, 7.x, 8.x   | ≥7.4        |
+| 0.3.x          | 6.4, 7.x, 8.x   | ≥8.1        |
 | 0.2.x          | 3.4, 4.x, 5.x, 6.x, 7.x | ≥7.4 |
 | 0.1.x          | 3.4, 4.x, 5.x   | ≥7.1        |
 

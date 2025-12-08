@@ -43,25 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
-        symfony: ['^3.4', '^4.0', '^5.0', '^6.0', '^7.0']
+        php: ['8.1', '8.2', '8.3', '8.4']
+        symfony: ['^6.0', '^7.0', '^8.0']
         exclude:
-          - symfony: ^3.4
-            php: 8.1
-          - symfony: ^3.4
-            php: 8.2
-          - symfony: ^3.4
-            php: 8.3
-          - symfony: ^3.4
-            php: 8.4
-          - symfony: ^4.0
-            php: 8.1
-          - symfony: ^4.0
-            php: 8.2
-          - symfony: ^4.0
-            php: 8.3
-          - symfony: ^4.0
-            php: 8.4
           - symfony: ^6.0
             php: 7.4
           - symfony: ^7.0
@@ -70,6 +54,12 @@ jobs:
             php: 8.0
           - symfony: ^7.0
             php: 8.1
+          - symfony: ^8.0
+            php: 8.1
+          - symfony: ^8.0
+            php: 8.2
+          - symfony: ^8.0
+            php: 8.3
       fail-fast: false
     name: PHPUnit (PHP ${{ matrix.php }}) (Symfony ${{ matrix.symfony }})
     steps:
@@ -106,7 +96,7 @@ jobs:
     timeout-minutes: 5
     env:
       APP_DEBUG: '1' # https://github.com/phpstan/phpstan-symfony/issues/37
-      SYMFONY_REQUIRE: '^5.0'
+      SYMFONY_REQUIRE: '^6.4'
       SYMFONY_PHPUNIT_VERSION: '9.5'
     steps:
       - name: Checkout
@@ -115,7 +105,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.1'
           tools: flex
           coverage: xdebug
           ini-values: memory_limit=-1
@@ -125,9 +115,4 @@ jobs:
           composer update --no-interaction --no-progress --ansi
 
       - name: Run code coverage
-        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-      - name: Send code coverage
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+        run: vendor/bin/phpunit --coverage-text
