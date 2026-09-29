@@ -14,7 +14,7 @@
       <directory suffix=".php">.</directory>
     </include>
     <exclude>
-      <directory>Resources</directory>
+      <directory>config</directory>
       <directory>Tests</directory>
       <directory>vendor</directory>
     </exclude>
