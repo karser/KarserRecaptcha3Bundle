@@ -73,12 +73,14 @@ class Curl
     }
 
     /**
+     * No-op: since PHP 8.0 cURL handles are objects freed automatically,
+     * and curl_close() is deprecated as of PHP 8.5.
+     *
      * @see http://php.net/curl_close
      * @param \CurlHandle|resource $ch
      * @return void
      */
     public function close($ch): void
     {
-        curl_close($ch);
     }
 }
