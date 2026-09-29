@@ -16,7 +16,6 @@ parameters:
         - '#Call to function method_exists\(\) with .*?TreeBuilder.*? and .*?getRootNode.*? will always evaluate to true#'
         - '#Comparison operation ".*?" between \d+ and \d+ is always (true|false)#'
         - '#Else branch is unreachable because ternary operator condition is always true#'
-        - '#Call to deprecated function curl_close\(\)#'
 
     excludePaths:
         - %currentWorkingDirectory%/.github/*
