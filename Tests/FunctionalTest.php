@@ -41,7 +41,7 @@ class FunctionalTest extends TestCase
         self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]"', $view);
         self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_captcha" async defer nonce=""></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
-        self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
+        self::assertStringContainsString("if (!document.getElementById('form_captcha'))", $view);
     }
 
     public function testHyphenConvertedToUnderscore()
@@ -58,7 +58,7 @@ class FunctionalTest extends TestCase
         self::assertStringContainsString('<input type="hidden" id="form_capt-cha" name="form[capt-cha]"', $view);
         self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_capt_cha" async defer nonce=""></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_capt_cha', $view);
-        self::assertStringContainsString("document.getElementById('form_capt-cha').value = token;", $view);
+        self::assertStringContainsString("if (!document.getElementById('form_capt-cha'))", $view);
     }
 
     public function testFormJavascriptAbsent_ifDisabled()
@@ -74,7 +74,7 @@ class FunctionalTest extends TestCase
         //THEN
         self::assertStringContainsString('<input type="hidden" id="form_captcha" name="form[captcha]"', $view);
         self::assertStringNotContainsString('<script src="https://www.google.com/recaptcha/api.js?render=key"></script>', $view);
-        self::assertStringNotContainsString("document.getElementById('form_captcha').value = token;", $view);
+        self::assertStringNotContainsString("if (!document.getElementById('form_captcha'))", $view);
     }
 
     public function testFormValid_ifEnabled()
@@ -197,7 +197,7 @@ class FunctionalTest extends TestCase
         self::assertStringContainsString('<script type="text/javascript" nonce="csp_nonce">', $view);
         self::assertStringContainsString('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&hl=en&onload=recaptchaCallback_form_captcha" async defer nonce="csp_nonce"></script>', $view);
         self::assertStringContainsString('var recaptchaCallback_form_captcha', $view);
-        self::assertStringContainsString("document.getElementById('form_captcha').value = token;", $view);
+        self::assertStringContainsString("if (!document.getElementById('form_captcha'))", $view);
     }
 
     public function testFormJavascriptAltHostIsPreserved_ifSet()

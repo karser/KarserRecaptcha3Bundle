@@ -6,8 +6,15 @@
         {% set validJsId = id | replace({'-':'_'})  %}
         <script type="text/javascript" {% if form.vars.script_nonce_csp is defined %}nonce="{{ form.vars.script_nonce_csp }}"{% endif %}>
             var recaptchaCallback_{{ validJsId }} = function() {
+                {# With Turbo Drive (or any SPA navigation) the refresh loop survives page changes: stop it once the field is gone #}
+                if (!document.getElementById('{{ id }}')) {
+                    return;
+                }
                 grecaptcha.execute('{{ form.vars.site_key }}', {action: '{{ form.vars.action_name }}'}).then(function(token) {
-                    document.getElementById('{{ id }}').value = token;
+                    var field = document.getElementById('{{ id }}');
+                    if (field) {
+                        field.value = token;
+                    }
                 });
                 setTimeout(recaptchaCallback_{{ validJsId }}, 100000);
             };
